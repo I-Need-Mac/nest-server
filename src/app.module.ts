@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 
@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import { MedicinesModule } from '@medicines/medicines.module';
+import { DecryptMiddleware } from '@middlewares/decrypt.middleware';
 
 @Module({
   imports: [
@@ -30,5 +31,8 @@ import { MedicinesModule } from '@medicines/medicines.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
-console.log(process.env.NODE_ENV, process.env.HOST);
+export class AppModule implements NestModule {
+  configure(medicines: MiddlewareConsumer) {
+    medicines.apply(DecryptMiddleware).forRoutes('medicines');
+  }
+}

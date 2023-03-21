@@ -13,7 +13,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@modules/*": ["./src/modules/*"],
-      "@medicines/*": ["./src/modules/medicines/*"]
+      "@medicines/*": ["./src/modules/medicines/*"],
+      "@middlewares/*": ["./src/common/middlewares/*"]
     },
     "incremental": true,
     "skipLibCheck": true,
