@@ -3,16 +3,22 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MedicinesModule } from './medicines/medicines.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath:
+        process.env.NODE_ENV == 'develop' ? '.env.local' : '.env.production',
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '127.0.0.1',
-      port: 3306,
-      username: 'root',
-      password: 'root',
-      database: 'test',
+      host: process.env.HOST,
+      port: process.env.PORT as any,
+      username: process.env.USERNAME,
+      password: process.env.PASSWORD,
+      database: process.env.DATABASE,
       synchronize: true,
       logging: true,
       entities: ['dist/**/*.entity{.ts,.js}'],
@@ -23,3 +29,4 @@ import { MedicinesModule } from './medicines/medicines.module';
   providers: [AppService],
 })
 export class AppModule {}
+console.log(process.env.NODE_ENV, process.env.HOST);
