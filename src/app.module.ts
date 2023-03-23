@@ -1,18 +1,27 @@
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { MedicinesModule } from './medicines/medicines.module';
+
+import { MedicinesModule } from '@medicines/medicines.module';
+import { DecryptMiddleware } from '@middlewares/decrypt.middleware';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath:
+        process.env.NODE_ENV == 'develop' ? '.env.local' : '.env.production',
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '127.0.0.1',
-      port: 3306,
-      username: 'root',
-      password: 'root',
-      database: 'test',
+      host: process.env.HOST,
+      port: process.env.PORT as any,
+      username: process.env.USERNAME,
+      password: process.env.PASSWORD,
+      database: process.env.DATABASE,
       synchronize: true,
       logging: true,
       entities: ['dist/**/*.entity{.ts,.js}'],
@@ -22,4 +31,8 @@ import { MedicinesModule } from './medicines/medicines.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(medicines: MiddlewareConsumer) {
+    medicines.apply(DecryptMiddleware).forRoutes('medicines');
+  }
+}
