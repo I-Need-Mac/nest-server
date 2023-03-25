@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MedicinesEntity } from './medicines.entity';
 import { MedicinesService } from './medicines.service';

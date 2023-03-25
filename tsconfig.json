@@ -12,6 +12,9 @@
     "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"],
+      "@common/*": ["./src/common/*"],
+      "@errors/*": ["./src/commons/errors/*"],
+      "@dto/*": ["./src/common/dto/*"],
       "@utils/*": ["./src/common/utils/*"],
       "@modules/*": ["./src/modules/*"],
       "@medicines/*": ["./src/modules/medicines/*"],

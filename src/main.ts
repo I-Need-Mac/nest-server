@@ -1,11 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { GlobalValidationPipe } from './common/errors/globalValidatiion.pipe';
+import { GlobalValidationFilter } from './common/errors/globalHttpException.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
   app.enableCors();
   app.setGlobalPrefix('api');
+  app.useGlobalPipes(new GlobalValidationPipe());
+  app.useGlobalFilters(new GlobalValidationFilter());
 
   const config = new DocumentBuilder()
     .setTitle('test example')

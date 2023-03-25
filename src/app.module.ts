@@ -1,4 +1,4 @@
-import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 
@@ -7,8 +7,7 @@ import { AppService } from './app.service';
 
 import { MedicinesModule } from '@medicines/medicines.module';
 import { UsersModule } from '@users/users.module';
-
-import { DecryptMiddleware } from '@middlewares/decrypt.middleware';
+import { APP_PIPE } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -31,10 +30,12 @@ import { DecryptMiddleware } from '@middlewares/decrypt.middleware';
     UsersModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      useClass: ValidationPipe,
+      provide: APP_PIPE,
+    },
+  ],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(DecryptMiddleware).forRoutes('medicines');
-  }
-}
+export class AppModule {}
