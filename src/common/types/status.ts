@@ -1,0 +1,11 @@
+const HttpStatus = {
+  OK: 200,
+  INVALID_QUERY: 400,
+  UNAUTHENTICATED: 403,
+  INVALID_CONDITION: 406,
+  INVALID_REWARD_BOX: 413,
+  INVALID_BODY: 422,
+  SERVER_ERROR: 500,
+};
+
+export default HttpStatus;
