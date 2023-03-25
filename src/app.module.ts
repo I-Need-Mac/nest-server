@@ -6,14 +6,15 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import { MedicinesModule } from '@medicines/medicines.module';
+import { UsersModule } from '@users/users.module';
+
 import { DecryptMiddleware } from '@middlewares/decrypt.middleware';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath:
-        process.env.NODE_ENV == 'develop' ? '.env.local' : '.env.production',
+      envFilePath: process.env.NODE_ENV == 'develop' ? '.env.local' : '.env.production',
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -27,12 +28,13 @@ import { DecryptMiddleware } from '@middlewares/decrypt.middleware';
       entities: ['dist/**/*.entity{.ts,.js}'],
     }),
     MedicinesModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule implements NestModule {
-  configure(medicines: MiddlewareConsumer) {
-    medicines.apply(DecryptMiddleware).forRoutes('medicines');
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(DecryptMiddleware).forRoutes('medicines');
   }
 }

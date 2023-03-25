@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 
 import { MedicinesEntity } from './medicines.entity';
 import encrypt from '@/common/utils/encrypt';
-import * as crypto from 'crypto';
 
 @Injectable()
 export class MedicinesService {
