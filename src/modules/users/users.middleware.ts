@@ -8,6 +8,7 @@ import HttpStatus from '@/common/types/status';
 export class DecryptionMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
     const { data } = req.body;
+    console.log('in middleware', data);
 
     if (data == null) {
       throw new HttpException('Invalid data', HttpStatus.INVALID_BODY);
