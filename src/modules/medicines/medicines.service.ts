@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { MedicinesEntity } from './medicines.entity';
+import encrypt from '@/common/utils/encrypt';
+import * as crypto from 'crypto';
 
 @Injectable()
 export class MedicinesService {
@@ -19,9 +21,8 @@ export class MedicinesService {
   }
 
   async create(data: MedicinesEntity) {
-    const user = this.medicinesRepository.create(data);
-    await this.medicinesRepository.save(data);
-    return user;
+    const data1 = encrypt(JSON.stringify({ hi: 'hello' }));
+    return { data: data1 };
   }
 
   async update(id: string, data: Partial<MedicinesEntity>) {

@@ -12,8 +12,10 @@
     "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"],
+      "@utils/*": ["./src/common/utils/*"],
       "@modules/*": ["./src/modules/*"],
       "@medicines/*": ["./src/modules/medicines/*"],
+      "@users/*": ["./src/modules/users/*"],
       "@middlewares/*": ["./src/common/middlewares/*"]
     },
     "incremental": true,
