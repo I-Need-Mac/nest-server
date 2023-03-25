@@ -1,7 +1,7 @@
 import { PrimaryGeneratedColumn, Column, BaseEntity, Entity, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('user')
-export class Asset extends BaseEntity {
+export class UsersEntity extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: '고유 ID' })
   id: number;
 

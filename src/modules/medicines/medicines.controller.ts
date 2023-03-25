@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Patch,
-  Body,
-  Param,
-  HttpStatus,
-} from '@nestjs/common';
+import { Controller, Get, Post, Patch, Body, Param, HttpStatus } from '@nestjs/common';
 
 import { MedicinesService } from './medicines.service';
 import { MedicinesEntity } from './medicines.entity';
@@ -36,10 +28,7 @@ export class MedicinesController {
   }
 
   @Patch(':id')
-  async updateMedicine(
-    @Param('id') id: string,
-    @Body() data: Partial<MedicinesEntity>,
-  ) {
+  async updateMedicine(@Param('id') id: string, @Body() data: Partial<MedicinesEntity>) {
     await this.medicinesService.update(id, data);
     return {
       statusCode: HttpStatus.OK,
