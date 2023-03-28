@@ -35,10 +35,3 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 node_modules
-.env.*
-.env
-
-# keys
-keys
-keys/*.pem
-keys/*.key
