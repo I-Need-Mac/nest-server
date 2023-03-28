@@ -5,38 +5,39 @@ import {
   Entity,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
-@Entity('user')
-export class Asset extends BaseEntity {
+
+@Entity('users')
+export class Users extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: '고유 ID' })
   id: number;
 
-  @Column({
-    type: 'int',
-    nullable: false,
-    comment: '스팀 아이디',
-  })
-  stream_id!: number;
+  @OneToMany(
+    () => Users, 
+    users => users.stream_id
+  )
+  stream_id!: Users[];
 
   @Column({
     type: 'varchar',
     comment: '닉네임',
   })
-  name: string;
+  name!: string;
 
   @Column({
     type: 'int',
     comment: '1: 관리자, 2: 일반 유저',
   })
-  admin_level: number;
+  admin_level!: number;
 
   @Column({
     type: 'datetime',
     default: () => 'CURRENT_TIMESTAMP',
-    comment: '로그인일',
+    comment!: '로그인일',
   })
-  login_at: Date;
+  login_at!: Date;
 
   @CreateDateColumn({
     type: 'timestamp',
@@ -58,5 +59,5 @@ export class Asset extends BaseEntity {
     type: 'bool',
     comment: 'true: 사용, false: 미사용',
   })
-  is_use: boolean;
+  is_use!: boolean;
 }
