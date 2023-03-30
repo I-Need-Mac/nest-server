@@ -1,23 +1,28 @@
-import { PrimaryGeneratedColumn, Column, BaseEntity, Entity, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  Entity,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+} from 'typeorm';
+import { Users } from '../users/users.entity';
 
-@Entity('asset')
-export class Asset extends BaseEntity {
+@Entity('assets')
+export class Assets extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: '고유 ID' })
-  id: number;
+  id!: number;
 
-  @Column({
-    type: 'int',
-    nullable: false,
-    comment: '스팀 아이디',
-  })
-  stream_id!: number;
+  @ManyToOne(() => Users, (users) => users.stream_id)
+  stream_id!: Users;
 
   @Column({
     type: 'int',
     nullable: false,
     comment: '상자를 열 수 있는 재화',
   })
-  play_key: boolean;
+  play_key!: boolean;
 
   @CreateDateColumn({
     type: 'timestamp',

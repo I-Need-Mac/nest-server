@@ -4,43 +4,45 @@ import {
   BaseEntity,
   Entity,
   CreateDateColumn,
+  ManyToMany,
+  ManyToOne,
 } from 'typeorm';
+import { Users } from '../users/users.entity';
 
-@Entity('stage')
-export class Asset extends BaseEntity {
+@Entity('stages')
+export class Stages extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: '고유 ID' })
   id: number;
 
-  @Column({
-    type: 'int',
-    nullable: false,
-    comment: '스팀 아이디',
-  })
-  stream_id!: number;
+  @ManyToOne(
+    () => Users,
+    users => users.stream_id
+  )
+  stream_id!: Users;
 
   @Column({
     type: 'int',
     comment: '스테이지 종류',
   })
-  stage: number;
+  stage!: number;
 
   @Column({
     type: 'bool',
     comment: '게임 진행 중 여부',
   })
-  is_finished: boolean;
+  is_finished!: boolean;
 
   @Column({
     type: 'bool',
     comment: '클리어 여부',
   })
-  is_clear: boolean;
+  is_clear!: boolean;
 
   @Column({
     type: 'int',
     comment: '플레이 시간',
   })
-  play_time: boolean;
+  play_time!: boolean;
 
   @CreateDateColumn({
     type: 'timestamp',

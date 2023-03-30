@@ -3,40 +3,43 @@ import {
   Column,
   BaseEntity,
   Entity,
+  ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Users } from '../users/users.entity';
 
-@Entity('user')
-export class Asset extends BaseEntity {
+@Entity('reward_boxes')
+export class Reward_boxes extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: '고유 ID' })
   id: number;
 
-  @Column({
-    type: 'int',
-    nullable: false,
-    comment: '스팀 아이디',
-  })
-  stream_id!: number;
-
-  @Column({
-    type: 'varchar',
-    comment: '닉네임',
-  })
-  name: string;
+  @ManyToOne(() => Users, (users) => users.stream_id)
+  stream_id!: Users;
 
   @Column({
     type: 'int',
-    comment: '1: 관리자, 2: 일반 유저',
+    comment: '상자 등급',
   })
-  admin_level: number;
+  box_type!: number;
+
+  @Column({
+    type: 'int',
+    comment: '획득한 스테이지',
+  })
+  stage_id!: number;
 
   @Column({
     type: 'datetime',
-    default: () => 'CURRENT_TIMESTAMP',
-    comment: '로그인일',
+    comment: '오픈 시간',
   })
-  login_at: Date;
+  open_start_time!: Date;
+
+  @Column({
+    type: 'bool',
+    comment: '보상 받았는지 여부',
+  })
+  is_open!: boolean;
 
   @CreateDateColumn({
     type: 'timestamp',
@@ -53,10 +56,4 @@ export class Asset extends BaseEntity {
     comment: '수정일',
   })
   updated_at!: Date;
-
-  @Column({
-    type: 'bool',
-    comment: 'true: 사용, false: 미사용',
-  })
-  is_use: boolean;
 }
