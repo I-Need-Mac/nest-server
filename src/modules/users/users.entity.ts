@@ -8,16 +8,12 @@ import {
   OneToMany,
 } from 'typeorm';
 
-
 @Entity('users')
 export class Users extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: '고유 ID' })
   id: number;
 
-  @OneToMany(
-    () => Users, 
-    users => users.stream_id
-  )
+  @OneToMany(() => Users, (users) => users.stream_id)
   stream_id!: Users[];
 
   @Column({
@@ -35,7 +31,7 @@ export class Users extends BaseEntity {
   @Column({
     type: 'datetime',
     default: () => 'CURRENT_TIMESTAMP',
-    comment!: '로그인일',
+    comment: '로그인일',
   })
   login_at!: Date;
 
