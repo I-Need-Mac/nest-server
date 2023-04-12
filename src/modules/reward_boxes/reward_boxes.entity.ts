@@ -43,7 +43,6 @@ export class Reward_boxes extends BaseEntity {
 
   @CreateDateColumn({
     type: 'timestamp',
-    nullable: true,
     default: () => 'CURRENT_TIMESTAMP',
     comment: '생성일',
   })
@@ -51,7 +50,6 @@ export class Reward_boxes extends BaseEntity {
 
   @UpdateDateColumn({
     type: 'timestamp',
-    nullable: true,
     default: () => 'CURRENT_TIMESTAMP',
     comment: '수정일',
   })

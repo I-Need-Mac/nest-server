@@ -1,12 +1,4 @@
-import {
-  PrimaryGeneratedColumn,
-  Column,
-  BaseEntity,
-  Entity,
-  CreateDateColumn,
-  ManyToMany,
-  ManyToOne,
-} from 'typeorm';
+import { PrimaryGeneratedColumn, Column, BaseEntity, Entity, CreateDateColumn, ManyToMany, ManyToOne } from 'typeorm';
 import { Users } from '../users/users.entity';
 
 @Entity('stages')
@@ -14,10 +6,7 @@ export class Stages extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: '고유 ID' })
   id: number;
 
-  @ManyToOne(
-    () => Users,
-    users => users.stream_id
-  )
+  @ManyToOne(() => Users, (users) => users.stream_id)
   stream_id!: Users;
 
   @Column({
@@ -46,7 +35,6 @@ export class Stages extends BaseEntity {
 
   @CreateDateColumn({
     type: 'timestamp',
-    nullable: true,
     default: () => 'CURRENT_TIMESTAMP',
     comment: '생성일',
   })

@@ -37,7 +37,6 @@ export class Users extends BaseEntity {
 
   @CreateDateColumn({
     type: 'timestamp',
-    nullable: true,
     default: () => 'CURRENT_TIMESTAMP',
     comment: '생성일',
   })
@@ -45,7 +44,6 @@ export class Users extends BaseEntity {
 
   @UpdateDateColumn({
     type: 'timestamp',
-    nullable: true,
     default: () => 'CURRENT_TIMESTAMP',
     comment: '수정일',
   })

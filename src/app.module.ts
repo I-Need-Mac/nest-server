@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 
 import { MedicinesModule } from '@medicines/medicines.module';
 import { UsersModule } from '@users/users.module';
+import { StagesModule } from './modules/stages/stages.module';
 import { APP_PIPE } from '@nestjs/core';
 
 @Module({
@@ -28,6 +29,7 @@ import { APP_PIPE } from '@nestjs/core';
     }),
     MedicinesModule,
     UsersModule,
+    StagesModule,
   ],
   controllers: [AppController],
   providers: [

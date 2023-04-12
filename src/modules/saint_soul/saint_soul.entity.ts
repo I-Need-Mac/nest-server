@@ -49,7 +49,6 @@ export class Saint_soul extends BaseEntity {
 
   @CreateDateColumn({
     type: 'timestamp',
-    nullable: true,
     default: () => 'CURRENT_TIMESTAMP',
     comment: '생성일',
   })
@@ -57,7 +56,6 @@ export class Saint_soul extends BaseEntity {
 
   @UpdateDateColumn({
     type: 'timestamp',
-    nullable: true,
     default: () => 'CURRENT_TIMESTAMP',
     comment: '수정일',
   })
