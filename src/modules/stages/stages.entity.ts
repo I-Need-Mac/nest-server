@@ -35,7 +35,7 @@ export class Stages extends BaseEntity {
 
   @CreateDateColumn({
     type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
+    default: () => 'CURRENT_TIMESTAMP(6)',
     comment: '생성일',
   })
   created_at!: Date;
