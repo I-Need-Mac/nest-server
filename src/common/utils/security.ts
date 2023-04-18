@@ -26,7 +26,7 @@ const getPublicKey = () => {
 };
 
 export const encrypt = (data: any) =>
-  crypto.privateEncrypt(getPrivateKey(), Buffer.from(data, 'utf8')).toString('base64');
+  crypto.privateEncrypt(getPublicKey(), Buffer.from(data, 'utf8')).toString('base64');
 
 export const decrypt = (data: string) =>
-  crypto.publicDecrypt(getPublicKey(), Buffer.from(data, 'base64')).toString('utf8');
+  crypto.publicDecrypt(getPrivateKey(), Buffer.from(data, 'base64')).toString('utf8');
