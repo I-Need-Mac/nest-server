@@ -14,8 +14,8 @@ export class Assets extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: '고유 ID' })
   id!: number;
 
-  @ManyToOne(() => Users, (users) => users.stream_id)
-  stream_id!: Users;
+  @ManyToOne(() => Users, (users) => users.steam_id)
+  steam_id!: Users;
 
   @Column({
     type: 'int',

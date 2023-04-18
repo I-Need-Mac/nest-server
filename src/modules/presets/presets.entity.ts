@@ -1,10 +1,4 @@
-import {
-  PrimaryGeneratedColumn,
-  Column,
-  BaseEntity,
-  Entity,
-  ManyToOne,
-} from 'typeorm';
+import { PrimaryGeneratedColumn, Column, BaseEntity, Entity, ManyToOne } from 'typeorm';
 import { Users } from '../users/users.entity';
 
 @Entity('presets')
@@ -12,8 +6,8 @@ export class Presets extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: '고유 ID' })
   id: number;
 
-  @ManyToOne(() => Users, (users) => users.stream_id)
-  stream_id!: Users;
+  @ManyToOne(() => Users, (users) => users.steam_id)
+  steam_id!: Users;
 
   @Column({
     comment: '상위 혼 종류',

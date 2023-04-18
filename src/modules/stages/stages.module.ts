@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DecryptionMiddleware } from './stages.middleware';
 import { GlobalHttpExceptionFilter } from '@/common/errors/globalHttpException.filter';
 import { GlobalValidationPipe } from '@/common/errors/globalValidatiion.pipe';
+import { UsersController } from '../users/users.controller';
 // import { UsersService } from '../users/users.service';
 
 @Module({

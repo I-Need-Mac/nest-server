@@ -1,14 +1,12 @@
 import { Controller, Post, Body, HttpStatus } from '@nestjs/common';
 
 import { StagesService } from './stages.service';
-import { UsersService } from '../users/users.service';
 import { CreateStageDto } from './stages.dto';
 import { ApiOperation } from '@nestjs/swagger';
-import { encrypt } from '@utils/security';
 
 @Controller('stage')
 export class StagesController {
-  constructor(private StagesService: StagesService, private UsersService: UsersService) {}
+  constructor(private StagesService: StagesService) {}
 
   @ApiOperation({ summary: '스테이지 시작 시 요청' })
   @Post('/start')
