@@ -13,8 +13,11 @@ export class UsersService {
     return await this.usersRepository.find();
   }
 
-  async findOne(id: number): Promise<Users> {
-    return await this.usersRepository.findOneBy({ id });
+  async checkDuplicated(name: string): Promise<boolean> {
+    const user = await this.usersRepository.findOneBy({ name });
+    console.log(user, name, 'in duplicated check');
+    if (user) return true;
+    return false;
   }
 
   async create(user: Partial<Users>): Promise<Users> {
