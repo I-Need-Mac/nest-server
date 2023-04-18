@@ -1,20 +1,15 @@
-import {
-  PrimaryGeneratedColumn,
-  Column,
-  BaseEntity,
-  Entity,
-  CreateDateColumn,
-  UpdateDateColumn,
-  OneToMany,
-} from 'typeorm';
+import { PrimaryGeneratedColumn, Column, BaseEntity, Entity, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('users')
 export class Users extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: '고유 ID' })
   id: number;
 
-  @OneToMany(() => Users, (users) => users.stream_id)
-  stream_id!: Users[];
+  @Column({
+    type: 'varchar',
+    comment: '스팀 아이디',
+  })
+  steam_id!: string;
 
   @Column({
     type: 'varchar',
@@ -24,15 +19,18 @@ export class Users extends BaseEntity {
 
   @Column({
     type: 'int',
+    default: () => '2',
     comment: '1: 관리자, 2: 일반 유저',
   })
   admin_level!: number;
 
   @Column({
     type: 'datetime',
+    nullable: true,
+    default: () => 'NULL',
     comment: '로그인일',
   })
-  login_at: Date;
+  login_at: Date | null;
 
   @CreateDateColumn({
     type: 'timestamp',
@@ -50,6 +48,7 @@ export class Users extends BaseEntity {
 
   @Column({
     type: 'bool',
+    default: () => 'true',
     comment: 'true: 사용, false: 미사용',
   })
   is_use!: boolean;

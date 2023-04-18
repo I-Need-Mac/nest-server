@@ -17,10 +17,16 @@ export class UsersModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(DecryptionMiddleware)
-      .exclude({
-        path: 'auth/duplicated',
-        method: RequestMethod.GET,
-      })
+      .exclude(
+        {
+          path: 'auth/duplicated',
+          method: RequestMethod.GET,
+        },
+        {
+          path: 'auth/users',
+          method: RequestMethod.GET,
+        },
+      )
       .forRoutes('auth');
   }
 }

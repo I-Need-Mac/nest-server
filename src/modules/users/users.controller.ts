@@ -24,10 +24,21 @@ export class UsersController {
     };
   }
 
+  @Get('/users')
+  async findAll() {
+    const users = await this.usersService.findAll();
+    console.log('in router :: ', users);
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'User created successfully',
+      data: users,
+    };
+  }
+
   @Post('/regist')
   async createUser(@Body() data: RegisterDto) {
-    // const data = await this.usersService.findByUser(id);
-    console.log('in router :: ', data);
+    const user = await this.usersService.create(data);
+    console.log('in router :: ', user);
     return {
       statusCode: HttpStatus.OK,
       message: 'User created successfully',
