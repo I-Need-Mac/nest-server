@@ -1,4 +1,13 @@
-import { PrimaryGeneratedColumn, Column, BaseEntity, Entity, CreateDateColumn, ManyToMany, ManyToOne } from 'typeorm';
+import {
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  Entity,
+  CreateDateColumn,
+  ManyToMany,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Users } from '../users/users.entity';
 
 @Entity('stages')
@@ -6,8 +15,11 @@ export class Stages extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: '고유 ID' })
   id: number;
 
-  @ManyToOne(() => Users, (users) => users.stream_id)
-  stream_id!: Users;
+  @Column({
+    type: 'int',
+    comment: '스팀 아이디',
+  })
+  stream_id: number;
 
   @Column({
     type: 'int',
@@ -39,4 +51,8 @@ export class Stages extends BaseEntity {
     comment: '생성일',
   })
   created_at!: Date;
+
+  @ManyToOne(() => Users, (users) => users.stream_ids)
+  @JoinColumn({ name: 'stream_id' })
+  users: Users;
 }

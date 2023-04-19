@@ -10,11 +10,11 @@ import {
 
 @Entity('users')
 export class Users extends BaseEntity {
-  @PrimaryGeneratedColumn({ comment: '고유 ID' })
+  @PrimaryGeneratedColumn({ type: 'int', comment: '고유 ID' })
   id: number;
 
-  @OneToMany(() => Users, (users) => users.stream_id)
-  stream_id!: Users[];
+  @Column({ type: 'int', comment: '스팀아이디' })
+  stream_id!: number;
 
   @Column({
     type: 'varchar',
@@ -53,4 +53,7 @@ export class Users extends BaseEntity {
     comment: 'true: 사용, false: 미사용',
   })
   is_use!: boolean;
+
+  @OneToMany(() => Users, (users) => users.stream_id)
+  stream_ids!: Users[];
 }
