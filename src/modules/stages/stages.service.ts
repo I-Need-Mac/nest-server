@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { Stages } from './stages.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class StagesService {
-  private stage: Stages[] = [];
+  constructor(@InjectRepository(Stages) private stages: Repository<Stages>) {}
 
-  create(stageData: any) {
-    this.stage.push({
-      ...stageData,
-    });
+  async create(stage: Partial<Stages>): Promise<Stages> {
+    return this.stages.save(stage);
   }
 }
