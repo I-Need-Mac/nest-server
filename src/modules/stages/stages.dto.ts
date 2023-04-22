@@ -2,7 +2,7 @@ import { IsArray, IsNumber, IsString } from 'class-validator';
 
 export class CreateStageDto {
   @IsString()
-  steam_id: string;
+  steam_id: number;
 
   @IsString()
   name: string;

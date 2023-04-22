@@ -1,12 +1,15 @@
-import { PrimaryGeneratedColumn, Column, BaseEntity, Entity, CreateDateColumn, ManyToOne } from 'typeorm';
+import { PrimaryGeneratedColumn, Column, BaseEntity, Entity, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Users } from '../users/users.entity';
 @Entity('stages')
 export class Stages extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: '고유 ID' })
   id: number;
 
-  @ManyToOne(() => Users, (users) => users.steam_id)
-  steam_id!: Users;
+  @Column({
+    type: 'int',
+    comment: '스팀 아이디',
+  })
+  steam_id: number;
 
   @Column({
     type: 'int',
@@ -38,4 +41,8 @@ export class Stages extends BaseEntity {
     comment: '생성일',
   })
   created_at!: Date;
+
+  @ManyToOne(() => Users, (users) => users.steam_ids)
+  @JoinColumn({ name: 'stream_id' })
+  users: Users;
 }

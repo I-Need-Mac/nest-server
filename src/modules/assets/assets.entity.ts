@@ -6,6 +6,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { Users } from '../users/users.entity';
 
@@ -37,4 +38,8 @@ export class Assets extends BaseEntity {
     comment: '수정일',
   })
   updated_at!: Date;
+
+  @ManyToOne(() => Users, (users) => users.steam_ids)
+  @JoinColumn({ name: 'stream_id' })
+  users: Users;
 }

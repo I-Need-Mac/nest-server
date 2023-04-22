@@ -1,26 +1,41 @@
 import { Controller, Post, Body, HttpStatus } from '@nestjs/common';
 
 import { StagesService } from './stages.service';
+import { PresetsService } from '../presets/presets.service';
 import { CreateStageDto } from './stages.dto';
 import { ApiOperation } from '@nestjs/swagger';
+import { encrypt } from '@utils/security';
 
 @Controller('stage')
 export class StagesController {
-  constructor(private StagesService: StagesService) {}
+  constructor(private StagesService: StagesService, private PresetsService: PresetsService) {}
 
   @ApiOperation({ summary: '스테이지 시작 시 요청' })
   @Post('/start')
-  async create(@Body() createStageData: CreateStageDto) {
-    console.log('in router :: ', createStageData);
+  async createStage(@Body() data: CreateStageDto) {
+    console.log('in router :: ', data);
 
-    // insert stage table data
-    // const stage = await this.StagesService.create(createStageData);
-    // const soul = await this.UsersService.createSoul(createStageData);
+    const stage = await this.StagesService.create({
+      stream_id: data.steam_id,
+      stage: data.stage,
+    });
 
-    return {
-      statusCode: HttpStatus.OK,
-      message: 'Stage Save successfully',
-    };
+    const preset = await this.PresetsService.create({
+      saint_soul_type: data.saint_soul,
+      soul1: data.soul.at(0),
+      soul2: data.soul.at(1),
+      soul3: data.soul.at(2),
+      soul4: data.soul.at(3),
+      soul5: data.soul.at(4),
+      soul6: data.soul.at(5),
+    });
+    //굳이 리스폰스를 보내줘야하나 다시 이야기 해보기.
+    if (stage && preset) {
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'User created successfully',
+      };
+    }
   }
 }
 

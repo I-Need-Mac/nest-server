@@ -6,6 +6,7 @@ import {
   ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
+  JoinColumn,
 } from 'typeorm';
 import { Users } from '../users/users.entity';
 
@@ -16,6 +17,11 @@ export class Reward_boxes extends BaseEntity {
 
   @ManyToOne(() => Users, (users) => users.steam_id)
   steam_id!: Users;
+  @Column({
+    type: 'int',
+    comment: '스팀 아이디',
+  })
+  steam_id: number;
 
   @Column({
     type: 'int',
@@ -54,4 +60,8 @@ export class Reward_boxes extends BaseEntity {
     comment: '수정일',
   })
   updated_at!: Date;
+
+  @ManyToOne(() => Users, (users) => users.steam_ids)
+  @JoinColumn({ name: 'stream_id' })
+  users: Users;
 }

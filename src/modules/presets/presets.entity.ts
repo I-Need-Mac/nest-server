@@ -1,4 +1,4 @@
-import { PrimaryGeneratedColumn, Column, BaseEntity, Entity, ManyToOne } from 'typeorm';
+import { PrimaryGeneratedColumn, Column, BaseEntity, Entity, ManyToOne, JoinColumn } from 'typeorm';
 import { Users } from '../users/users.entity';
 
 @Entity('presets')
@@ -6,8 +6,11 @@ export class Presets extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: '고유 ID' })
   id: number;
 
-  @ManyToOne(() => Users, (users) => users.steam_id)
-  steam_id!: Users;
+  @Column({
+    type: 'int',
+    comment: '스팀 아이디',
+  })
+  steam_id: number;
 
   @Column({
     comment: '상위 혼 종류',
@@ -55,4 +58,8 @@ export class Presets extends BaseEntity {
     type: 'varchar',
   })
   character!: string;
+
+  @ManyToOne(() => Users, (users) => users.steam_ids)
+  @JoinColumn({ name: 'stream_id' })
+  users: Users;
 }

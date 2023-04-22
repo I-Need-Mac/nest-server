@@ -6,6 +6,7 @@ import {
   ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
+  JoinColumn,
 } from 'typeorm';
 import { Users } from '../users/users.entity';
 
@@ -14,8 +15,11 @@ export class Saint_soul extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: '고유 ID' })
   id: number;
 
-  @ManyToOne(() => Users, (users) => users.steam_id)
-  steam_id!: Users;
+  @Column({
+    type: 'int',
+    comment: '스팀 아이디',
+  })
+  steam_id: number;
 
   @Column({
     comment: '첫 번째 소울 해금상태',
@@ -60,4 +64,8 @@ export class Saint_soul extends BaseEntity {
     comment: '수정일',
   })
   updated_at!: Date;
+
+  @ManyToOne(() => Users, (users) => users.steam_ids)
+  @JoinColumn({ name: 'stream_id' })
+  users: Users;
 }

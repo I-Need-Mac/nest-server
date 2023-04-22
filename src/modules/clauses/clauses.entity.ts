@@ -1,4 +1,4 @@
-import { PrimaryGeneratedColumn, Column, BaseEntity, Entity, ManyToOne } from 'typeorm';
+import { PrimaryGeneratedColumn, Column, BaseEntity, Entity, ManyToOne, JoinColumn } from 'typeorm';
 import { Users } from '../users/users.entity';
 
 @Entity('clauses')
@@ -6,8 +6,11 @@ export class Clauses extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: '고유 ID' })
   id: number;
 
-  @ManyToOne(() => Users, (users) => users.steam_id)
-  steam_id!: Users;
+  @Column({
+    type: 'int',
+    comment: '스팀 아이디',
+  })
+  stream_id: number;
 
   @Column({
     comment: '첫 번째 약관',
@@ -26,4 +29,8 @@ export class Clauses extends BaseEntity {
     type: 'bool',
   })
   third_clause!: boolean;
+
+  @ManyToOne(() => Users, (users) => users.steam_ids)
+  @JoinColumn({ name: 'stream_id' })
+  users: Users;
 }

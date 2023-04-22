@@ -7,13 +7,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DecryptionMiddleware } from './stages.middleware';
 import { GlobalHttpExceptionFilter } from '@/common/errors/globalHttpException.filter';
 import { GlobalValidationPipe } from '@/common/errors/globalValidatiion.pipe';
-import { UsersController } from '../users/users.controller';
-// import { UsersService } from '../users/users.service';
+import { PresetsService } from '../presets/presets.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Stages])],
-  // providers: [StagesService, UsersService, GlobalHttpExceptionFilter, GlobalValidationPipe],
-  providers: [StagesService, GlobalHttpExceptionFilter, GlobalValidationPipe],
+  providers: [StagesService, PresetsService, GlobalHttpExceptionFilter, GlobalValidationPipe],
   controllers: [StagesController],
 })
 export class StagesModule {
