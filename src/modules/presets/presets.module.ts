@@ -13,5 +13,6 @@ import { GlobalValidationPipe } from '@/common/errors/globalValidatiion.pipe';
   imports: [TypeOrmModule.forFeature([Presets])],
   providers: [PresetsService, GlobalHttpExceptionFilter, GlobalValidationPipe],
   controllers: [PresetsController],
+  exports: [PresetsService],
 })
 export class PresetsModule {}
