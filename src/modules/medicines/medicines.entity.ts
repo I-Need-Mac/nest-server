@@ -1,6 +1,11 @@
-import { IsObject } from 'class-validator';
+import { IsObject, IsString } from 'class-validator';
 
-export class RegisterDto {
+export class DecryptDto {
+  @IsString()
+  data: string;
+}
+
+export class EncrpytDto {
   @IsObject()
   data: any;
 }

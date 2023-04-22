@@ -15,11 +15,13 @@ export class Reward_boxes extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: '고유 ID' })
   id: number;
 
+  @ManyToOne(() => Users, (users) => users.steam_id)
+  steam_id!: Users;
   @Column({
     type: 'int',
     comment: '스팀 아이디',
   })
-  stream_id: number;
+  steam_id: number;
 
   @Column({
     type: 'int',
@@ -59,7 +61,7 @@ export class Reward_boxes extends BaseEntity {
   })
   updated_at!: Date;
 
-  @ManyToOne(() => Users, (users) => users.stream_ids)
+  @ManyToOne(() => Users, (users) => users.steam_ids)
   @JoinColumn({ name: 'stream_id' })
   users: Users;
 }

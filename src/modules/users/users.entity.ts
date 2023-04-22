@@ -14,7 +14,7 @@ export class Users extends BaseEntity {
   id: number;
 
   @Column({ type: 'int', comment: '스팀아이디' })
-  stream_id!: number;
+  steam_id!: number;
 
   @Column({
     type: 'varchar',
@@ -24,15 +24,18 @@ export class Users extends BaseEntity {
 
   @Column({
     type: 'int',
+    default: () => '2',
     comment: '1: 관리자, 2: 일반 유저',
   })
   admin_level!: number;
 
   @Column({
     type: 'datetime',
+    nullable: true,
+    default: () => 'NULL',
     comment: '로그인일',
   })
-  login_at: Date;
+  login_at: Date | null;
 
   @CreateDateColumn({
     type: 'timestamp',
@@ -50,10 +53,11 @@ export class Users extends BaseEntity {
 
   @Column({
     type: 'bool',
+    default: () => 'true',
     comment: 'true: 사용, false: 미사용',
   })
   is_use!: boolean;
 
-  @OneToMany(() => Users, (users) => users.stream_id)
-  stream_ids!: Users[];
+  @OneToMany(() => Users, (users) => users.steam_id)
+  steam_ids!: Users[];
 }

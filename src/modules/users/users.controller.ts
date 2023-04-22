@@ -13,21 +13,32 @@ export class UsersController {
     name: 'name',
   })
   @Get('/duplicated')
-  async checkDuplicated(@Query() name: CheckDuplicatedDto) {
-    // const isDuplicated = await this.usersService.checkDuplicated(name);
-    const data = encrypt(JSON.stringify({ is_duplicated: false }));
+  async checkDuplicated(@Query() data: CheckDuplicatedDto) {
+    const { name } = data;
+    const isDuplicated = await this.usersService.checkDuplicated(name);
     console.log('in router :: ', name);
     return {
       statusCode: HttpStatus.OK,
       message: 'User created successfully',
-      data,
+      data: encrypt(JSON.stringify({ isDuplicated })),
+    };
+  }
+
+  @Get('/users')
+  async findAll() {
+    const users = await this.usersService.findAll();
+    console.log('in router :: ', users);
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'User created successfully',
+      data: users,
     };
   }
 
   @Post('/regist')
   async createUser(@Body() data: RegisterDto) {
-    // const data = await this.usersService.findByUser(id);
-    console.log('in router :: ', data);
+    const user = await this.usersService.create(data);
+    console.log('in router :: ', user);
     return {
       statusCode: HttpStatus.OK,
       message: 'User created successfully',
