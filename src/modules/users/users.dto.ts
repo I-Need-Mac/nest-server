@@ -2,7 +2,7 @@ import { IsOptional, IsString } from 'class-validator';
 
 export class RegisterDto {
   @IsString()
-  steam_id: string;
+  steam_id: number;
 
   @IsString()
   name: string;

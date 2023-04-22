@@ -66,6 +66,6 @@ export class Saint_soul extends BaseEntity {
   updated_at!: Date;
 
   @ManyToOne(() => Users, (users) => users.steam_ids)
-  @JoinColumn({ name: 'stream_id' })
+  @JoinColumn({ name: 'steam_id' })
   users: Users;
 }
