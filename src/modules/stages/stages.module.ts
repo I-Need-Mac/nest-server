@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { Stages } from './stages.entity';
@@ -17,12 +17,6 @@ import { PresetsModule } from '../presets/presets.module';
 })
 export class StagesModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(DecryptionMiddleware)
-      .exclude({
-        path: 'stage/start',
-        method: RequestMethod.POST,
-      })
-      .forRoutes('stage');
+    consumer.apply(DecryptionMiddleware).forRoutes('stage');
   }
 }

@@ -19,17 +19,19 @@ export class StagesController {
       stage: data.stage,
     });
 
-    const preset = await this.presetsService.create({
-      saint_soul_type: data.saint_soul,
-      soul1: data.soul.at(0),
-      soul2: data.soul.at(1),
-      soul3: data.soul.at(2),
-      soul4: data.soul.at(3),
-      soul5: data.soul.at(4),
-      soul6: data.soul.at(5),
-    });
+    // const preset = await this.presetsService.create({
+    //   saint_soul_type: data.saint_soul,
+    //   soul1: data.soul.at(0),
+    //   soul2: data.soul.at(1),
+    //   soul3: data.soul.at(2),
+    //   soul4: data.soul.at(3),
+    //   soul5: data.soul.at(4),
+    //   soul6: data.soul.at(5),
+    // });
+
+    // console.log(stage, preset);
     //굳이 리스폰스를 보내줘야하나 다시 이야기 해보기.
-    if (stage && preset) {
+    if (stage) {
       return {
         statusCode: HttpStatus.OK,
         message: 'User created successfully',

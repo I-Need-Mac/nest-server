@@ -19,18 +19,21 @@ export class Stages extends BaseEntity {
 
   @Column({
     type: 'bool',
+    default: () => false,
     comment: '게임 진행 중 여부',
   })
   is_finished!: boolean;
 
   @Column({
     type: 'bool',
+    default: () => false,
     comment: '클리어 여부',
   })
   is_clear!: boolean;
 
   @Column({
     type: 'int',
+    default: () => false,
     comment: '플레이 시간',
   })
   play_time!: boolean;
