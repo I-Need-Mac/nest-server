@@ -1,6 +1,6 @@
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 
-import { UsersEntity } from './users.entity';
+import { Users } from './users.entity';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -9,7 +9,7 @@ import { GlobalHttpExceptionFilter } from '@/common/errors/globalHttpException.f
 import { GlobalValidationPipe } from '@/common/errors/globalValidatiion.pipe';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UsersEntity])],
+  imports: [TypeOrmModule.forFeature([Users])],
   providers: [UsersService, GlobalHttpExceptionFilter, GlobalValidationPipe],
   controllers: [UsersController],
 })
