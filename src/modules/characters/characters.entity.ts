@@ -10,7 +10,7 @@ export class Characters extends BaseEntity {
     type: 'int',
     comment: '스팀 아이디',
   })
-  stream_id: number;
+  steam_id: number;
 
   @Column({
     type: 'bool',
@@ -49,6 +49,6 @@ export class Characters extends BaseEntity {
   ulises!: boolean;
 
   @ManyToOne(() => Users, (users) => users.steam_ids)
-  @JoinColumn({ name: 'stream_id' })
+  @JoinColumn({ name: 'steam_id' })
   users: Users;
 }

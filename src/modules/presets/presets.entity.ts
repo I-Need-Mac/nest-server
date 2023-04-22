@@ -60,6 +60,6 @@ export class Presets extends BaseEntity {
   character!: string;
 
   @ManyToOne(() => Users, (users) => users.steam_ids)
-  @JoinColumn({ name: 'stream_id' })
+  @JoinColumn({ name: 'steam_id' })
   users: Users;
 }

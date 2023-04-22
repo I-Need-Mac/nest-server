@@ -21,8 +21,6 @@ export class Reward_boxes extends BaseEntity {
     type: 'int',
     comment: '스팀 아이디',
   })
-  steam_id: number;
-
   @Column({
     type: 'int',
     comment: '상자 등급',
@@ -62,6 +60,6 @@ export class Reward_boxes extends BaseEntity {
   updated_at!: Date;
 
   @ManyToOne(() => Users, (users) => users.steam_ids)
-  @JoinColumn({ name: 'stream_id' })
+  @JoinColumn({ name: 'steam_id' })
   users: Users;
 }
