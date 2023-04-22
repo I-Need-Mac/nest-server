@@ -10,11 +10,11 @@ import {
 
 @Entity('users')
 export class Users extends BaseEntity {
-  @PrimaryGeneratedColumn({ comment: '고유 ID' })
+  @PrimaryGeneratedColumn({ type: 'int', comment: '고유 ID' })
   id: number;
 
-  @OneToMany(() => Users, (users) => users.stream_id)
-  stream_id!: Users[];
+  @Column({ type: 'int', comment: '스팀아이디' })
+  stream_id!: number;
 
   @Column({
     type: 'varchar',
@@ -30,23 +30,20 @@ export class Users extends BaseEntity {
 
   @Column({
     type: 'datetime',
-    default: () => 'CURRENT_TIMESTAMP',
     comment: '로그인일',
   })
-  login_at!: Date;
+  login_at: Date;
 
   @CreateDateColumn({
     type: 'timestamp',
-    nullable: true,
-    default: () => 'CURRENT_TIMESTAMP',
+    default: () => 'CURRENT_TIMESTAMP(6)',
     comment: '생성일',
   })
   created_at!: Date;
 
   @UpdateDateColumn({
     type: 'timestamp',
-    nullable: true,
-    default: () => 'CURRENT_TIMESTAMP',
+    default: () => 'CURRENT_TIMESTAMP(6)',
     comment: '수정일',
   })
   updated_at!: Date;
@@ -56,4 +53,7 @@ export class Users extends BaseEntity {
     comment: 'true: 사용, false: 미사용',
   })
   is_use!: boolean;
+
+  @OneToMany(() => Users, (users) => users.stream_id)
+  stream_ids!: Users[];
 }
