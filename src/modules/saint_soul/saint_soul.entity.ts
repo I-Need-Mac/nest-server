@@ -16,10 +16,10 @@ export class Saint_soul extends BaseEntity {
   id: number;
 
   @Column({
-    type: 'int',
+    type: 'varchar',
     comment: '스팀 아이디',
   })
-  stream_id: number;
+  steam_id: string;
 
   @Column({
     comment: '첫 번째 소울 해금상태',
@@ -65,7 +65,7 @@ export class Saint_soul extends BaseEntity {
   })
   updated_at!: Date;
 
-  @ManyToOne(() => Users, (users) => users.stream_ids)
-  @JoinColumn({ name: 'stream_id' })
+  @ManyToOne((type) => Users)
+  @JoinColumn({ name: 'steam_id', referencedColumnName: 'steam_id' })
   users: Users;
 }

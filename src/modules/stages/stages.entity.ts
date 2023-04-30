@@ -1,13 +1,4 @@
-import {
-  PrimaryGeneratedColumn,
-  Column,
-  BaseEntity,
-  Entity,
-  CreateDateColumn,
-  ManyToMany,
-  ManyToOne,
-  JoinColumn,
-} from 'typeorm';
+import { PrimaryGeneratedColumn, Column, BaseEntity, Entity, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Users } from '../users/users.entity';
 
 @Entity('stages')
@@ -16,10 +7,10 @@ export class Stages extends BaseEntity {
   id: number;
 
   @Column({
-    type: 'int',
+    type: 'varchar',
     comment: '스팀 아이디',
   })
-  stream_id: number;
+  steam_id: string;
 
   @Column({
     type: 'int',
@@ -43,7 +34,7 @@ export class Stages extends BaseEntity {
     type: 'int',
     comment: '플레이 시간',
   })
-  play_time!: boolean;
+  play_time!: number;
 
   @CreateDateColumn({
     type: 'timestamp',
@@ -52,7 +43,7 @@ export class Stages extends BaseEntity {
   })
   created_at!: Date;
 
-  @ManyToOne(() => Users, (users) => users.stream_ids)
-  @JoinColumn({ name: 'stream_id' })
+  @ManyToOne((type) => Users)
+  @JoinColumn({ name: 'steam_id', referencedColumnName: 'steam_id' })
   users: Users;
 }

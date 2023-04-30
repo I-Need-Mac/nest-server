@@ -7,10 +7,10 @@ export class Presets extends BaseEntity {
   id: number;
 
   @Column({
-    type: 'int',
+    type: 'varchar',
     comment: '스팀 아이디',
   })
-  stream_id: number;
+  steam_id: string;
 
   @Column({
     comment: '상위 혼 종류',
@@ -59,7 +59,7 @@ export class Presets extends BaseEntity {
   })
   character!: string;
 
-  @ManyToOne(() => Users, (users) => users.stream_ids)
-  @JoinColumn({ name: 'stream_id' })
+  @ManyToOne((type) => Users)
+  @JoinColumn({ name: 'steam_id', referencedColumnName: 'steam_id' })
   users: Users;
 }

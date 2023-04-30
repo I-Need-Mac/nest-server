@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, HttpStatus, Res } from '@nestjs/common';
 
 import { StagesService } from './stages.service';
 import { PresetsService } from '../presets/presets.service';
@@ -8,61 +8,43 @@ import { encrypt } from '@utils/security';
 
 @Controller('stage')
 export class StagesController {
-  constructor(private StagesService: StagesService, private PresetsService: PresetsService) {}
+  constructor(private readonly StagesService: StagesService, private readonly PresetsService: PresetsService) {}
 
   @ApiOperation({ summary: '스테이지 시작 시 요청' })
   @Post('/start')
   async createStage(@Body() data: CreateStageDto) {
     console.log('in router :: ', data);
 
-    const stage = await this.StagesService.create({
-      stream_id: data.steam_id,
-      stage: data.stage,
-    });
+    if (data != undefined) {
+      await this.StagesService.create({
+        steam_id: data.steam_id,
+        stage: data.stage,
+        is_finished: true,
+        is_clear: false,
+        play_time: 0,
+      });
 
-    const preset = await this.PresetsService.create({
-      saint_soul_type: data.saint_soul,
-      soul1: data.soul.at(0),
-      soul2: data.soul.at(1),
-      soul3: data.soul.at(2),
-      soul4: data.soul.at(3),
-      soul5: data.soul.at(4),
-      soul6: data.soul.at(5),
-    });
-    //굳이 리스폰스를 보내줘야하나 다시 이야기 해보기.
-    if (stage && preset) {
+      await this.PresetsService.create({
+        steam_id: data.steam_id,
+        saint_soul_type: data.saint_soul,
+        soul1: Number(data.soul.at(0)),
+        soul2: Number(data.soul.at(1)),
+        soul3: Number(data.soul.at(2)),
+        soul4: Number(data.soul.at(3)),
+        soul5: Number(data.soul.at(4)),
+        soul6: Number(data.soul.at(5)),
+        character: '',
+      });
+
       return {
         statusCode: HttpStatus.OK,
-        message: 'User created successfully',
+        message: 'created successfully',
+      };
+    } else {
+      return {
+        statusCode: HttpStatus.BAD_REQUEST,
+        message: 'created failed',
       };
     }
   }
 }
-
-/*
-import { Controller, Get, Post, Body } from '@nestjs/common';
-import { CatsService } from './cats.service';
-import { DogsService } from './dogs.service';
-import { Cat } from './interfaces/cat.interface';
-import { Dog } from './interfaces/dog.interface';
-
-@Controller('cats')
-export class CatsController {
-  constructor(
-    private readonly catsService: CatsService,
-    private readonly dogsService: DogsService,
-  ) {}
-
-  // ... 기존 코드 생략 ...
-
-  @Post('dogs')
-  createDog(@Body() dog: Dog): void {
-    this.dogsService.create(dog);
-  }
-
-  @Get('dogs')
-  findAllDogs(): Dog[] {
-    return this.dogsService.findAll();
-  }
-}
-*/
