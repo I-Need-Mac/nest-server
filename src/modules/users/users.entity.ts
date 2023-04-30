@@ -13,8 +13,8 @@ export class Users extends BaseEntity {
   @PrimaryGeneratedColumn({ type: 'int', comment: '고유 ID' })
   id: number;
 
-  @Column({ type: 'int', comment: '스팀아이디' })
-  steam_id!: number;
+  @Column({ type: 'varchar', comment: '스팀아이디', unique: true })
+  steam_id!: string;
 
   @Column({
     type: 'varchar',
@@ -58,6 +58,6 @@ export class Users extends BaseEntity {
   })
   is_use!: boolean;
 
-  @OneToMany(() => Users, (users) => users.steam_id)
-  steam_ids!: Users[];
+  @OneToMany((type) => Users, (users) => users.steam_id)
+  childSteam_id!: Users[];
 }

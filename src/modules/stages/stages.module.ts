@@ -8,11 +8,12 @@ import { DecryptionMiddleware } from './stages.middleware';
 
 import { GlobalHttpExceptionFilter } from '@/common/errors/globalHttpException.filter';
 import { GlobalValidationPipe } from '@/common/errors/globalValidatiion.pipe';
-import { PresetsModule } from '../presets/presets.module';
+import { PresetsService } from '../presets/presets.service';
+import { Presets } from '../presets/presets.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Stages]), PresetsModule],
-  providers: [StagesService, GlobalHttpExceptionFilter, GlobalValidationPipe],
+  imports: [TypeOrmModule.forFeature([Stages, Presets])],
+  providers: [StagesService, PresetsService, GlobalHttpExceptionFilter, GlobalValidationPipe],
   controllers: [StagesController],
 })
 export class StagesModule {

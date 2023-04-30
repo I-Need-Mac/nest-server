@@ -15,8 +15,11 @@ export class Assets extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: '고유 ID' })
   id!: number;
 
-  @ManyToOne(() => Users, (users) => users.steam_id)
-  steam_id!: Users;
+  @Column({
+    type: 'varchar',
+    comment: '스팀 아이디',
+  })
+  steam_id: string;
 
   @Column({
     type: 'int',
@@ -39,7 +42,7 @@ export class Assets extends BaseEntity {
   })
   updated_at!: Date;
 
-  @ManyToOne(() => Users, (users) => users.steam_ids)
-  @JoinColumn({ name: 'stream_id' })
+  @ManyToOne((type) => Users)
+  @JoinColumn({ name: 'steam_id', referencedColumnName: 'steam_id' })
   users: Users;
 }

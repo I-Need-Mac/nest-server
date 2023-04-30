@@ -7,10 +7,10 @@ export class Clauses extends BaseEntity {
   id: number;
 
   @Column({
-    type: 'int',
+    type: 'varchar',
     comment: '스팀 아이디',
   })
-  steam_id: number;
+  steam_id: string;
 
   @Column({
     comment: '첫 번째 약관',
@@ -30,7 +30,7 @@ export class Clauses extends BaseEntity {
   })
   third_clause!: boolean;
 
-  @ManyToOne(() => Users, (users) => users.steam_ids)
-  @JoinColumn({ name: 'steam_id' })
+  @ManyToOne((type) => Users)
+  @JoinColumn({ name: 'steam_id', referencedColumnName: 'steam_id' })
   users: Users;
 }
