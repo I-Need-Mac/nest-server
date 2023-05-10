@@ -5,8 +5,8 @@ import {
   Entity,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToOne,
   JoinColumn,
+  OneToOne,
 } from 'typeorm';
 import { Users } from '../users/users.entity';
 
@@ -43,7 +43,7 @@ export class Assets extends BaseEntity {
   })
   updated_at!: Date;
 
-  @ManyToOne(() => Users)
+  @OneToOne(() => Users)
   @JoinColumn({ name: 'steam_id', referencedColumnName: 'steam_id' })
   users: Users;
 }
