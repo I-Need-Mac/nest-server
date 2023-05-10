@@ -10,56 +10,73 @@ export class Presets extends BaseEntity {
     type: 'varchar',
     comment: '스팀 아이디',
   })
-  steam_id: string;
+  steam_id!: string;
 
   @Column({
     comment: '상위 혼 종류',
     type: 'int',
+    nullable: true,
+    default: () => 'NULL',
   })
-  saint_soul_type!: number;
+  saint_soul_type: number | null;
 
   @Column({
     comment: '하위 soul1 종류',
     type: 'int',
+    nullable: true,
+    default: () => 'NULL',
   })
-  soul1!: number;
+  soul1: number | null;
 
   @Column({
     comment: '하위 soul2 종류',
     type: 'int',
+    nullable: true,
+    default: () => 'NULL',
   })
-  soul2!: number;
+  soul2: number | null;
 
   @Column({
     comment: '하위 soul3 종류',
     type: 'int',
+    nullable: true,
+    default: () => 'NULL',
   })
-  soul3!: number;
+  soul3: number | null;
+
   @Column({
     comment: '하위 soul4 종류',
     type: 'int',
+    nullable: true,
+    default: () => 'NULL',
   })
-  soul4!: number;
+  soul4: number | null;
 
   @Column({
     comment: '하위 soul5 종류',
     type: 'int',
+    nullable: true,
+    default: () => 'NULL',
   })
-  soul5!: number;
+  soul5: number | null;
 
   @Column({
     comment: '하위 soul6 종류',
     type: 'int',
+    nullable: true,
+    default: () => 'NULL',
   })
-  soul6!: number;
+  soul6: number | null;
 
   @Column({
     comment: '캐릭터 이름',
     type: 'varchar',
+    nullable: true,
+    default: () => 'NULL',
   })
-  character!: string;
+  character: string | null;
 
-  @ManyToOne((type) => Users)
+  @ManyToOne(() => Users)
   @JoinColumn({ name: 'steam_id', referencedColumnName: 'steam_id' })
   users: Users;
 }

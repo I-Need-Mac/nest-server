@@ -8,6 +8,11 @@ import { AppService } from './app.service';
 import { MedicinesModule } from '@medicines/medicines.module';
 import { UsersModule } from '@users/users.module';
 import { StagesModule } from './modules/stages/stages.module';
+import { SaintSoulsModule } from './modules/saint_souls/saint_souls.module';
+import { PresetsModule } from './modules/presets/presets.module';
+import { AssetsModule } from './modules/assets/assets.module';
+import { CharactersModule } from './modules/characters/characters.module';
+
 import { APP_PIPE } from '@nestjs/core';
 
 @Module({
@@ -30,6 +35,10 @@ import { APP_PIPE } from '@nestjs/core';
     MedicinesModule,
     UsersModule,
     StagesModule,
+    SaintSoulsModule,
+    PresetsModule,
+    AssetsModule,
+    CharactersModule,
   ],
   controllers: [AppController],
   providers: [

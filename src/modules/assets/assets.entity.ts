@@ -24,9 +24,10 @@ export class Assets extends BaseEntity {
   @Column({
     type: 'int',
     nullable: false,
+    default: () => '0',
     comment: '상자를 열 수 있는 재화',
   })
-  play_key!: boolean;
+  key!: number;
 
   @CreateDateColumn({
     type: 'timestamp',
@@ -42,7 +43,7 @@ export class Assets extends BaseEntity {
   })
   updated_at!: Date;
 
-  @ManyToOne((type) => Users)
+  @ManyToOne(() => Users)
   @JoinColumn({ name: 'steam_id', referencedColumnName: 'steam_id' })
   users: Users;
 }
