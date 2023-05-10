@@ -1,18 +1,23 @@
 import { Controller, Post, Body, HttpStatus, Get, Query } from '@nestjs/common';
+import { DataSource } from 'typeorm';
 import { ApiQuery } from '@nestjs/swagger';
 
 import { UsersService } from './users.service';
 import { RegisterDto, CheckDuplicatedDto } from './users.dto';
 
 import { AssetsService } from '../assets/assets.service';
+import { CharactersService } from '../characters/characters.service';
 
 import { encrypt } from '@utils/security';
-import { DataSource } from 'typeorm';
 
 @Controller('auth')
 export class UsersController {
-  dataSource: DataSource;
-  constructor(private usersService: UsersService, private assetsService: AssetsService) {}
+  constructor(
+    private dataSource: DataSource,
+    private usersService: UsersService,
+    private assetsService: AssetsService,
+    private charactersService: CharactersService,
+  ) {}
 
   @ApiQuery({
     name: 'name',
@@ -45,13 +50,15 @@ export class UsersController {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
+
     try {
       const userPromise = this.usersService.create(data);
       const assetPromise = this.assetsService.create({ steam_id: data.steam_id });
+      const characterPromise = this.charactersService.create({ steam_id: data.steam_id });
 
-      const [user, asset] = await Promise.all([userPromise, assetPromise]);
+      const [user, asset, character] = await Promise.all([userPromise, assetPromise, characterPromise]);
 
-      console.log('in router :: ', user, asset);
+      console.log('in router :: ', user, asset, character);
     } catch (err) {
       await queryRunner.rollbackTransaction();
       throw err;
