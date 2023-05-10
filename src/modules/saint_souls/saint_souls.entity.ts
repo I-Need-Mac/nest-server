@@ -11,7 +11,7 @@ import {
 import { Users } from '../users/users.entity';
 
 @Entity('saint_souls')
-export class Saint_souls extends BaseEntity {
+export class SaintSouls extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: '고유 ID' })
   id: number;
 

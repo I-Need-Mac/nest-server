@@ -9,7 +9,7 @@ export class AssetsService {
     this.assetsRepository = assetsRepository;
   }
 
-  async create({ steam_id }: { steam_id: string }): Promise<Assets> {
+  async create({ steam_id }: Partial<Assets>): Promise<Assets> {
     const newAssets = this.assetsRepository.create({ steam_id });
     return await this.assetsRepository.save(newAssets);
   }

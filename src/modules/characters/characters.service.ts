@@ -9,8 +9,8 @@ export class CharactersService {
     this.charactersRepository = charactersRepository;
   }
 
-  async create({ steam_id }: { steam_id: string }): Promise<Characters> {
-    const newAssets = this.charactersRepository.create({ steam_id });
-    return await this.charactersRepository.save(newAssets);
+  async create({ steam_id }: Partial<Characters>): Promise<Characters> {
+    const newCharacter = this.charactersRepository.create({ steam_id });
+    return await this.charactersRepository.save(newCharacter);
   }
 }
