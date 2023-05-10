@@ -12,6 +12,7 @@ import { SaintSoulsModule } from './modules/saint_souls/saint_souls.module';
 import { PresetsModule } from './modules/presets/presets.module';
 import { AssetsModule } from './modules/assets/assets.module';
 import { CharactersModule } from './modules/characters/characters.module';
+import { SoulsModule } from './modules/souls/souls.module';
 
 import { APP_PIPE } from '@nestjs/core';
 
@@ -36,6 +37,7 @@ import { APP_PIPE } from '@nestjs/core';
     UsersModule,
     StagesModule,
     SaintSoulsModule,
+    SoulsModule,
     PresetsModule,
     AssetsModule,
     CharactersModule,

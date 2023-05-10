@@ -1,5 +1,5 @@
-import { PrimaryGeneratedColumn, Column, BaseEntity, Entity, ManyToOne, JoinColumn } from 'typeorm';
-import { Users } from '../users/users.entity';
+import { PrimaryGeneratedColumn, Column, BaseEntity, Entity, OneToOne, JoinColumn } from 'typeorm';
+import { Users } from '@users/users.entity';
 
 @Entity('presets')
 export class Presets extends BaseEntity {
@@ -76,7 +76,7 @@ export class Presets extends BaseEntity {
   })
   character: string | null;
 
-  @ManyToOne(() => Users)
+  @OneToOne(() => Users)
   @JoinColumn({ name: 'steam_id', referencedColumnName: 'steam_id' })
   users: Users;
 }

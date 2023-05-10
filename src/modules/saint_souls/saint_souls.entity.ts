@@ -3,12 +3,12 @@ import {
   Column,
   BaseEntity,
   Entity,
-  ManyToOne,
+  OneToOne,
   CreateDateColumn,
   UpdateDateColumn,
   JoinColumn,
 } from 'typeorm';
-import { Users } from '../users/users.entity';
+import { Users } from '@users/users.entity';
 
 @Entity('saint_souls')
 export class SaintSouls extends BaseEntity {
@@ -70,7 +70,7 @@ export class SaintSouls extends BaseEntity {
   })
   updated_at!: Date;
 
-  @ManyToOne(() => Users)
+  @OneToOne(() => Users)
   @JoinColumn({ name: 'steam_id', referencedColumnName: 'steam_id' })
   users: Users;
 }
