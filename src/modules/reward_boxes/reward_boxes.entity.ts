@@ -59,7 +59,7 @@ export class Reward_boxes extends BaseEntity {
   })
   updated_at!: Date;
 
-  @ManyToOne((type) => Users)
+  @ManyToOne(() => Users)
   @JoinColumn({ name: 'steam_id', referencedColumnName: 'steam_id' })
   users: Users;
 }

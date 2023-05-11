@@ -58,6 +58,6 @@ export class Users extends BaseEntity {
   })
   is_use!: boolean;
 
-  @OneToMany((type) => Users, (users) => users.steam_id)
+  @OneToMany(() => Users, (users) => users.steam_id)
   childSteam_id!: Users[];
 }

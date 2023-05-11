@@ -3,12 +3,10 @@ import { Request, Response, NextFunction } from 'express';
 
 import { decrypt } from '@/common/utils/security';
 import HttpStatus from '@/common/types/status';
-import * as BodyParser from 'body-parser';
 
 @Injectable()
 export class DecryptionMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
-    BodyParser.raw({ type: '*/*' })(req, res, next);
     const { data } = req.body;
     console.log('in middleware', data);
 

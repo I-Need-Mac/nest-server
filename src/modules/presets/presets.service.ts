@@ -5,9 +5,10 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class PresetsService {
-  constructor(@InjectRepository(Presets) private presets: Repository<Presets>) {}
+  constructor(@InjectRepository(Presets) private presetRepository: Repository<Presets>) {}
 
-  async create(presets: Partial<Presets>): Promise<Presets> {
-    return this.presets.save(presets);
+  async create({ steam_id }: Partial<Presets>): Promise<Presets> {
+    const newPreset = this.presetRepository.create({ steam_id });
+    return await this.presetRepository.save(newPreset);
   }
 }
