@@ -1,5 +1,5 @@
 import { Body, HttpException, Injectable, NestMiddleware } from '@nestjs/common';
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, json } from 'express';
 
 import { decrypt } from '@/common/utils/security';
 import HttpStatus from '@/common/types/status';

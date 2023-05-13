@@ -18,7 +18,6 @@ export class MedicinesController {
   }
   @Post('/decrpyt')
   async decrpytEndpoint(@Body() data: DecryptDto) {
-    console.log('123');
     const user = await this.medicinesService.decrypt(data);
     return {
       statusCode: HttpStatus.OK,

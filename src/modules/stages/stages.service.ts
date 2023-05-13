@@ -5,9 +5,19 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class StagesService {
-  constructor(@InjectRepository(Stages) private stages: Repository<Stages>) {}
+  constructor(@InjectRepository(Stages) private stageRepository: Repository<Stages>) {
+    this.stageRepository = stageRepository;
+  }
 
   async create(stage: Partial<Stages>): Promise<Stages> {
-    return this.stages.save(stage);
+    return this.stageRepository.save(stage);
+  }
+
+  async update(steam_id: string, stageData: Partial<Stages>): Promise<Stages> {
+    const stage = await this.stageRepository.findOne({ where: { steam_id: steam_id } });
+    stage.is_clear = stageData.is_clear;
+    stage.play_time = stageData.play_time;
+    await this.stageRepository.save(stage);
+    return stage;
   }
 }

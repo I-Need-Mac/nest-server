@@ -10,10 +10,12 @@ import { GlobalHttpExceptionFilter } from '@/common/errors/globalHttpException.f
 import { GlobalValidationPipe } from '@/common/errors/globalValidatiion.pipe';
 import { PresetsService } from '../presets/presets.service';
 import { Presets } from '../presets/presets.entity';
+import { AssetsService } from '../assets/assets.service';
+import { Assets } from '../assets/assets.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Stages, Presets])],
-  providers: [StagesService, PresetsService, GlobalHttpExceptionFilter, GlobalValidationPipe],
+  imports: [TypeOrmModule.forFeature([Stages, Presets, Assets])],
+  providers: [StagesService, PresetsService, AssetsService, GlobalHttpExceptionFilter, GlobalValidationPipe],
   controllers: [StagesController],
 })
 export class StagesModule {
