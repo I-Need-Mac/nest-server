@@ -26,7 +26,7 @@ export class Assets extends BaseEntity {
     nullable: false,
     comment: '상자를 열 수 있는 재화',
   })
-  play_key!: boolean;
+  play_key!: number;
 
   @CreateDateColumn({
     type: 'timestamp',
