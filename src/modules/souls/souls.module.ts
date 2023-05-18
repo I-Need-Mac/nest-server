@@ -13,5 +13,6 @@ import { GlobalValidationPipe } from '@/common/errors/globalValidatiion.pipe';
   imports: [TypeOrmModule.forFeature([Souls])],
   providers: [SoulsService, GlobalHttpExceptionFilter, GlobalValidationPipe],
   controllers: [SoulsController],
+  exports: [SoulsService],
 })
 export class SoulsModule {}

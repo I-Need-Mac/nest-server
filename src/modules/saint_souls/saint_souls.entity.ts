@@ -3,15 +3,15 @@ import {
   Column,
   BaseEntity,
   Entity,
-  ManyToOne,
+  OneToOne,
   CreateDateColumn,
   UpdateDateColumn,
   JoinColumn,
 } from 'typeorm';
-import { Users } from '../users/users.entity';
+import { Users } from '@users/users.entity';
 
-@Entity('saint_soul')
-export class Saint_soul extends BaseEntity {
+@Entity('saint_souls')
+export class SaintSouls extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: '고유 ID' })
   id: number;
 
@@ -24,30 +24,35 @@ export class Saint_soul extends BaseEntity {
   @Column({
     comment: '첫 번째 소울 해금상태',
     type: 'bool',
+    default: () => 'true',
   })
   saint_soul1!: boolean;
 
   @Column({
     comment: '두 번째 소울 해금상태',
     type: 'bool',
+    default: () => 'true',
   })
   saint_soul2!: boolean;
 
   @Column({
     comment: '세 번째 소울 해금상태',
     type: 'bool',
+    default: () => 'false',
   })
   saint_soul3!: boolean;
 
   @Column({
     comment: '네 번째 소울 해금상태',
     type: 'bool',
+    default: () => 'false',
   })
   saint_soul4!: boolean;
 
   @Column({
     comment: '다섯 번째 소울 해금상태',
     type: 'bool',
+    default: () => 'false',
   })
   saint_soul5!: boolean;
 
@@ -65,7 +70,7 @@ export class Saint_soul extends BaseEntity {
   })
   updated_at!: Date;
 
-  @ManyToOne((type) => Users)
+  @OneToOne(() => Users)
   @JoinColumn({ name: 'steam_id', referencedColumnName: 'steam_id' })
   users: Users;
 }

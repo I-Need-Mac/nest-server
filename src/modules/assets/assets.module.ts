@@ -1,17 +1,12 @@
-import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
-
-import { Assets } from './assets.entity';
+import { Module } from '@nestjs/common';
 import { AssetsService } from './assets.service';
 import { AssetsController } from './assets.controller';
+import { Assets } from './assets.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DecryptionMiddleware } from './assets.middleware';
-import { GlobalHttpExceptionFilter } from '@/common/errors/globalHttpException.filter';
-import { GlobalValidationPipe } from '@/common/errors/globalValidatiion.pipe';
-// import { UsersService } from '../users/users.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Assets])],
-  providers: [AssetsService, GlobalHttpExceptionFilter, GlobalValidationPipe],
+  providers: [AssetsService],
   controllers: [AssetsController],
   exports: [AssetsService],
 })

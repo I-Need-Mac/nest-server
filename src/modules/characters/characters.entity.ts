@@ -15,40 +15,46 @@ export class Characters extends BaseEntity {
   @Column({
     type: 'bool',
     comment: 'HoJin 캐릭터 해금 여부',
+    default: () => 'true',
   })
   hojin!: boolean;
 
   @Column({
     type: 'bool',
     comment: 'Seimei 캐릭터 해금 여부',
+    default: () => 'false',
   })
   seimei!: boolean;
 
   @Column({
     type: 'bool',
     comment: 'Macia 캐릭터 해금 여부',
+    default: () => 'false',
   })
   macia!: boolean;
 
   @Column({
     type: 'bool',
     comment: 'Sinwol 캐릭터 해금 여부',
+    default: () => 'false',
   })
   sinwol!: boolean;
 
   @Column({
     type: 'bool',
     comment: 'SiWoo 캐릭터 해금 여부',
+    default: () => 'false',
   })
   siWoo!: boolean;
 
   @Column({
     type: 'bool',
     comment: 'Ulises 캐릭터 해금 여부',
+    default: () => 'false',
   })
   ulises!: boolean;
 
-  @ManyToOne((type) => Users)
+  @ManyToOne(() => Users)
   @JoinColumn({ name: 'steam_id', referencedColumnName: 'steam_id' })
   users: Users;
 }
