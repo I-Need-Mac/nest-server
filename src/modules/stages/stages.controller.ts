@@ -21,47 +21,47 @@ export class StagesController {
     const asset = await this.AssetsService.findOne(data.steam_id);
 
     if (data != undefined) {
-      if (asset.play_key > 0) {
-        const key_sum = asset.play_key - data.key;
+      if (asset.key != 0) {
+        const key_sum = asset.key - data.key;
 
-        await this.AssetsService.update(data.steam_id, key_sum);
-
-        const stage = await this.StagesService.create({
-          steam_id: data.steam_id,
-          stage: data.stage,
-          is_finished: true,
-          is_clear: false,
-          play_time: 0,
-        });
-
-        await this.PresetsService.create({
-          steam_id: data.steam_id,
-          saint_soul_type: data.saint_soul,
-          soul1: data.soul[0],
-          soul2: data.soul[1],
-          soul3: data.soul[2],
-          soul4: data.soul[3],
-          soul5: data.soul[4],
-          soul6: data.soul[5],
-          character: data.character,
-        });
-
-        return {
-          statusCode: HttpStatus.OK,
-          message: 'created successfully',
-          data: {
-            steam_id: stage.steam_id,
-            stage_id: stage.id,
-            stage: stage.stage,
-            created_at: stage.created_at,
-          },
-        };
-      } else {
-        return {
-          statusCode: HttpStatus.BAD_REQUEST,
-          message: 'asset update failed',
-        };
+        if (key_sum >= 0) {
+          await this.AssetsService.update(data.steam_id, key_sum);
+        } else {
+          return {
+            statusCode: HttpStatus.BAD_REQUEST,
+            message: 'asset update failed',
+          };
+        }
       }
+      const stage = await this.StagesService.create({
+        steam_id: data.steam_id,
+        stage: data.stage,
+        is_finished: false,
+        is_clear: false,
+        play_time: 0,
+      });
+
+      await this.PresetsService.update(data.steam_id, {
+        saint_soul_type: data.saint_soul,
+        soul1: data.soul[0],
+        soul2: data.soul[1],
+        soul3: data.soul[2],
+        soul4: data.soul[3],
+        soul5: data.soul[4],
+        soul6: data.soul[5],
+        character: data.character,
+      });
+
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'created successfully',
+        data: {
+          steam_id: stage.steam_id,
+          stage_id: stage.id,
+          stage: stage.stage,
+          created_at: stage.created_at,
+        },
+      };
     } else {
       return {
         statusCode: HttpStatus.BAD_REQUEST,
@@ -77,7 +77,7 @@ export class StagesController {
     console.log('in router :: ', data);
 
     if (data != undefined) {
-      const stage = await this.StagesService.update(data.steam_id, {
+      const stage = await this.StagesService.update(data.stage_id, {
         is_clear: data.is_clear,
         play_time: data.paly_time,
       });
