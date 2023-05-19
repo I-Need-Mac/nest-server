@@ -7,7 +7,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DecryptionMiddleware } from './presets.middleware';
 import { GlobalHttpExceptionFilter } from '@/common/errors/globalHttpException.filter';
 import { GlobalValidationPipe } from '@/common/errors/globalValidatiion.pipe';
-// import { UsersService } from '../users/users.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Presets])],
@@ -15,4 +14,20 @@ import { GlobalValidationPipe } from '@/common/errors/globalValidatiion.pipe';
   controllers: [PresetsController],
   exports: [PresetsService],
 })
-export class PresetsModule {}
+export class PresetsModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(DecryptionMiddleware)
+      .exclude(
+        {
+          path: 'preset/soul',
+          method: RequestMethod.GET,
+        },
+        {
+          path: 'preset/character',
+          method: RequestMethod.GET,
+        },
+      )
+      .forRoutes('preset');
+  }
+}

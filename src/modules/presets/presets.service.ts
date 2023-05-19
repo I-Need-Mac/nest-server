@@ -25,4 +25,8 @@ export class PresetsService {
     await this.presetRepository.save(preset);
     return preset;
   }
+
+  async findOne(steam_id: string): Promise<Presets> {
+    return this.presetRepository.findOne({ where: { steam_id: steam_id } });
+  }
 }
