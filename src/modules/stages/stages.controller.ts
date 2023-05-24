@@ -21,8 +21,8 @@ export class StagesController {
     const asset = await this.AssetsService.findOne(data.steam_id);
 
     if (data != undefined) {
-      if (asset.play_key > 0) {
-        const key_sum = asset.play_key - data.key;
+      if (asset.key > 0) {
+        const key_sum = asset.key - data.key;
 
         await this.AssetsService.update(data.steam_id, key_sum);
 
