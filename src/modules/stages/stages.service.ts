@@ -13,8 +13,8 @@ export class StagesService {
     return this.stageRepository.save(stage);
   }
 
-  async update(steam_id: string, stageData: Partial<Stages>): Promise<Stages> {
-    const stage = await this.stageRepository.findOne({ where: { steam_id: steam_id } });
+  async update(stage_id: number, stageData: Partial<Stages>): Promise<Stages> {
+    const stage = await this.stageRepository.findOne({ where: { id: stage_id } });
     stage.is_clear = stageData.is_clear;
     stage.play_time = stageData.play_time;
     await this.stageRepository.save(stage);

@@ -36,9 +36,9 @@ export class UpdateStageDto {
   @IsString()
   steam_id: string;
 
-  @ApiProperty({ description: '스테이지' })
+  @ApiProperty({ description: '스테이지 아이디' })
   @IsNumber()
-  stage: number;
+  stage_id: number;
 
   @ApiProperty({ description: '성공여부' })
   @IsBoolean()
