@@ -3,7 +3,7 @@ import { DataSource } from 'typeorm';
 import { ApiQuery } from '@nestjs/swagger';
 
 import { UsersService } from './users.service';
-import { RegisterDto, CheckDuplicatedDto } from './users.dto';
+import { RegisterDto, CheckDuplicatedDto, LoginDto } from './users.dto';
 
 import { AssetsService } from '../assets/assets.service';
 import { CharactersService } from '../characters/characters.service';
@@ -88,6 +88,17 @@ export class UsersController {
     return {
       statusCode: HttpStatus.OK,
       message: 'User created successfully',
+    };
+  }
+
+  @Post('/login')
+  async login(@Body() data: LoginDto) {
+    const { steam_id, name } = data;
+    const user = await this.usersService.update({ steam_id, name });
+    return {
+      statusCode: user ? HttpStatus.OK : HttpStatus.NOT_FOUND,
+      message: user ? 'User created successfully' : 'no user',
+      data: user,
     };
   }
 }

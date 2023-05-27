@@ -25,9 +25,11 @@ export class UsersService {
     return await this.usersRepository.save(newUser);
   }
 
-  async update(id: number, user: Partial<Users>): Promise<Users> {
-    await this.usersRepository.update(id, user);
-    return await this.usersRepository.findOneBy({ id });
+  async update({ steam_id, name }: Partial<Users>): Promise<Users> {
+    const user = await this.usersRepository.findOneBy({ steam_id, name });
+    if (!user) return user;
+    user.login_at = new Date();
+    return this.usersRepository.save(user);
   }
 
   async delete(id: number): Promise<void> {
