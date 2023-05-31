@@ -13,4 +13,29 @@ export class CharactersService {
     const newCharacter = this.charactersRepository.create({ steam_id });
     return await this.charactersRepository.save(newCharacter);
   }
+
+  async update(steam_id: string, character_name: string): Promise<Characters> {
+    const character = await this.charactersRepository.findOneBy({ steam_id: steam_id });
+    if (!character) return character;
+    switch (character_name) {
+      case 'seimei':
+        character.seimei = true;
+        break;
+      case 'macia':
+        character.macia = true;
+        break;
+      case 'sinwol':
+        character.sinwol = true;
+        break;
+      case 'siWoo':
+        character.siWoo = true;
+        break;
+      case 'ulises':
+        character.ulises = true;
+        break;
+      default:
+        break;
+    }
+    return this.charactersRepository.save(character);
+  }
 }
