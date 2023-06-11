@@ -1,10 +1,12 @@
-import { Controller, Post, Body, HttpStatus, Res, Patch } from '@nestjs/common';
-
-import { StagesService } from './stages.service';
-import { PresetsService } from '../presets/presets.service';
-import { AssetsService } from '../assets/assets.service';
-import { CreateStageDto, UpdateStageDto } from './stages.dto';
 import { ApiOperation } from '@nestjs/swagger';
+import { Controller, Post, Body, HttpStatus, Patch } from '@nestjs/common';
+
+import { CreateStageDto, UpdateStageDto } from './stages.dto';
+import { StagesService } from './stages.service';
+
+import { PresetsService } from '@presets/presets.service';
+import { AssetsService } from '@assets/assets.service';
+import { RewardBoxesService } from '@reward_boxes/reward_boxes.service';
 
 @Controller('stage')
 export class StagesController {
@@ -12,6 +14,7 @@ export class StagesController {
     private readonly StagesService: StagesService,
     private readonly PresetsService: PresetsService,
     private readonly AssetsService: AssetsService,
+    private readonly RewardBoxesService: RewardBoxesService,
   ) {}
 
   @ApiOperation({ summary: '스테이지 시작 시 요청' })
@@ -82,13 +85,25 @@ export class StagesController {
         play_time: data.paly_time,
       });
 
+      if (data.reward_box.length > 4 || data.reward_box.length === 0) throw new Error('reward box length is over 4');
+
+      const rewardBox = await Promise.all(
+        data.reward_box.map(async (box_type) => {
+          return this.RewardBoxesService.create({
+            steam_id: data.steam_id,
+            box_type,
+            stage_id: data.stage_id,
+          });
+        }),
+      );
+
       return {
         statusCode: HttpStatus.OK,
         message: 'stage update successfully',
         data: {
           steam_id: stage.steam_id,
           stage: stage.stage,
-          reward_box: data.reward_box,
+          reward_box: rewardBox,
           updated_at: stage.created_at,
         },
       };

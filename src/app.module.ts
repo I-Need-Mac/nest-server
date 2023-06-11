@@ -5,14 +5,14 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
+import { AssetsModule } from '@assets/assets.module';
+import { CharactersModule } from '@characters/characters.module';
 import { MedicinesModule } from '@medicines/medicines.module';
+import { PresetsModule } from '@presets/presets.module';
 import { UsersModule } from '@users/users.module';
-import { StagesModule } from './modules/stages/stages.module';
-import { SaintSoulsModule } from './modules/saint_souls/saint_souls.module';
-import { PresetsModule } from './modules/presets/presets.module';
-import { AssetsModule } from './modules/assets/assets.module';
-import { CharactersModule } from './modules/characters/characters.module';
-import { SoulsModule } from './modules/souls/souls.module';
+import { StagesModule } from '@stages/stages.module';
+import { SaintSoulsModule } from '@saint_souls/saint_souls.module';
+import { SoulsModule } from '@souls/souls.module';
 
 import { APP_PIPE } from '@nestjs/core';
 
