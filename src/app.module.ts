@@ -13,6 +13,7 @@ import { UsersModule } from '@users/users.module';
 import { StagesModule } from '@stages/stages.module';
 import { SaintSoulsModule } from '@saint_souls/saint_souls.module';
 import { SoulsModule } from '@souls/souls.module';
+import { RewardBoxesModule } from '@reward_boxes/reward_boxes.module';
 
 import { APP_PIPE } from '@nestjs/core';
 
@@ -40,6 +41,7 @@ import { APP_PIPE } from '@nestjs/core';
     SoulsModule,
     PresetsModule,
     AssetsModule,
+    RewardBoxesModule,
     CharactersModule,
   ],
   controllers: [AppController],

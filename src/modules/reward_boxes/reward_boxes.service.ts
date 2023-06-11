@@ -12,4 +12,7 @@ export class RewardBoxesService {
     const newRewardBox = this.rewardBoxesRepository.create({ steam_id, box_type, stage_id });
     return newRewardBox.save();
   }
+  async getRewardBoxes(steam_id: string): Promise<RewardBoxes[]> {
+    return await this.rewardBoxesRepository.find({ where: { steam_id } });
+  }
 }
