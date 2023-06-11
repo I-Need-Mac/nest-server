@@ -23,7 +23,10 @@ export class StagesController {
     console.log('in router :: ', data);
     const asset = await this.AssetsService.findOne(data.steam_id);
 
-    if (data != undefined) {
+    try {
+      if (data == null) throw new Error('data is null');
+      if (data.soul.length != 6) throw new Error('soul length is not 6');
+
       if (asset.key != 0) {
         const key_sum = asset.key - data.key;
 
@@ -65,7 +68,7 @@ export class StagesController {
           created_at: stage.created_at,
         },
       };
-    } else {
+    } catch {
       return {
         statusCode: HttpStatus.BAD_REQUEST,
         message: 'created failed',
@@ -79,13 +82,14 @@ export class StagesController {
     //리워드 박스 업데이트는 추후 구현
     console.log('in router :: ', data);
 
-    if (data != undefined) {
+    try {
+      if (data == null) throw new Error('data is null');
+      if (data.reward_box.length > 4 || data.reward_box.length === 0) throw new Error('reward box length is over 4');
+
       const stage = await this.StagesService.update(data.stage_id, {
         is_clear: data.is_clear,
         play_time: data.paly_time,
       });
-
-      if (data.reward_box.length > 4 || data.reward_box.length === 0) throw new Error('reward box length is over 4');
 
       const rewardBox = await Promise.all(
         data.reward_box.map(async (box_type) => {
@@ -107,7 +111,7 @@ export class StagesController {
           updated_at: stage.created_at,
         },
       };
-    } else {
+    } catch (e) {
       return {
         statusCode: HttpStatus.BAD_REQUEST,
         message: 'stage update failed',
