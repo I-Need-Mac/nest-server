@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
 
 export class FindRewardBoxDto {
   @ApiProperty({ description: '스팀아이디' })
@@ -7,7 +7,11 @@ export class FindRewardBoxDto {
   steam_id: string;
 }
 
-export class RewardBoxOpenDto {
+export class RewardBoxOpenStartDto {
+  @ApiProperty({ description: 'reward box 아이디' })
+  @IsNumber()
+  id: number;
+
   @ApiProperty({ description: '스팀아이디' })
   @IsString()
   steam_id: string;

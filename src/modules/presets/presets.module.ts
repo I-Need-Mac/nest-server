@@ -4,7 +4,7 @@ import { Presets } from './presets.entity';
 import { PresetsService } from './presets.service';
 import { PresetsController } from './presets.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DecryptionMiddleware } from './presets.middleware';
+import { DecryptionMiddleware } from '@/common/utils/middleware';
 import { GlobalHttpExceptionFilter } from '@/common/errors/globalHttpException.filter';
 import { GlobalValidationPipe } from '@/common/errors/globalValidatiion.pipe';
 
