@@ -20,4 +20,18 @@ export class StagesService {
     await this.stageRepository.save(stage);
     return stage;
   }
+
+  async lastStageSelect(steam_id: string): Promise<Stages> {
+    return await this.stageRepository.findOne({
+      where: { steam_id: steam_id },
+      order: { created_at: 'DESC' },
+    });
+  }
+
+  async highStageSelect(steam_id: string): Promise<Stages> {
+    return await this.stageRepository.findOne({
+      where: { steam_id: steam_id },
+      order: { stage: 'DESC' },
+    });
+  }
 }

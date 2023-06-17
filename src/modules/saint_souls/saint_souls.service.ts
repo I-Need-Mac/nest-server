@@ -11,4 +11,8 @@ export class SaintSoulsService {
     const newSaintSoul = this.saintSoulsRepogitory.create({ steam_id });
     return await this.saintSoulsRepogitory.save(newSaintSoul);
   }
+
+  async findOne(steam_id: string): Promise<SaintSouls> {
+    return await this.saintSoulsRepogitory.findOne({ where: { steam_id: steam_id } });
+  }
 }

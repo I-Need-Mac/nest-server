@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { APP_PIPE } from '@nestjs/core';
 
 import { MedicinesModule } from '@medicines/medicines.module';
 import { UsersModule } from '@users/users.module';
@@ -13,8 +14,7 @@ import { PresetsModule } from './modules/presets/presets.module';
 import { AssetsModule } from './modules/assets/assets.module';
 import { CharactersModule } from './modules/characters/characters.module';
 import { SoulsModule } from './modules/souls/souls.module';
-
-import { APP_PIPE } from '@nestjs/core';
+import { GameModule } from './modules/game/game.module';
 
 @Module({
   imports: [
@@ -41,6 +41,7 @@ import { APP_PIPE } from '@nestjs/core';
     PresetsModule,
     AssetsModule,
     CharactersModule,
+    GameModule,
   ],
   controllers: [AppController],
   providers: [
