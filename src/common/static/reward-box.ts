@@ -27,8 +27,14 @@ class LowestBox1 {
   }
 }
 
+/*
+  { itemKey: 'key', amount: 2, weight: 10 },
+  { itemKey: 'box_[box_grade]', amount: 1, weight: 5 },
+  { itemKey: 'soul_[saint_soul_name]_[soul_name]', amount: 2, weight: 1 },
+*/
+
 export const LowestBox1Instance = new LowestBox1([
   { itemKey: 'key', amount: 2, weight: 10 },
-  { itemKey: 'box', amount: 1, weight: 5 },
-  { itemKey: 'soul101', amount: 2, weight: 1 },
+  { itemKey: 'box_low', amount: 1, weight: 5 },
+  { itemKey: 'soul_001_001', amount: 2, weight: 1 },
 ]);
