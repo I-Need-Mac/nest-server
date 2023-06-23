@@ -45,7 +45,7 @@ export class Stages extends BaseEntity {
   })
   created_at!: Date;
 
-  @ManyToOne((type) => Users)
+  @ManyToOne(() => Users)
   @JoinColumn({ name: 'steam_id', referencedColumnName: 'steam_id' })
   users: Users;
 }

@@ -11,7 +11,7 @@ import {
 import { Users } from '../users/users.entity';
 
 @Entity('reward_boxes')
-export class Reward_boxes extends BaseEntity {
+export class RewardBoxes extends BaseEntity {
   @PrimaryGeneratedColumn({ comment: '고유 ID' })
   id: number;
 
@@ -35,12 +35,14 @@ export class Reward_boxes extends BaseEntity {
 
   @Column({
     type: 'datetime',
+    nullable: true,
     comment: '오픈 시간',
   })
-  open_start_time!: Date;
+  open_start_time: Date;
 
   @Column({
     type: 'bool',
+    default: () => 'false',
     comment: '보상 받았는지 여부',
   })
   is_open!: boolean;
