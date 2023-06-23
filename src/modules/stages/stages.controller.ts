@@ -90,6 +90,7 @@ export class StagesController {
         is_clear: data.is_clear,
         play_time: data.paly_time,
       });
+      if (data.reward_box.length > 4 || data.reward_box.length === 0) throw new Error('reward box length is over 4');
 
       const rewardBox = await Promise.all(
         data.reward_box.map(async (box_type) => {

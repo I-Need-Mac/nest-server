@@ -1,4 +1,4 @@
-import { PrimaryGeneratedColumn, Column, BaseEntity, Entity, ManyToOne, JoinColumn } from 'typeorm';
+import { PrimaryGeneratedColumn, Column, BaseEntity, Entity, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
 import { Users } from '../users/users.entity';
 
 @Entity('clauses')
@@ -29,6 +29,13 @@ export class Clauses extends BaseEntity {
     type: 'bool',
   })
   third_clause!: boolean;
+
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+    comment: '생성일',
+  })
+  created_at!: Date;
 
   @ManyToOne((type) => Users)
   @JoinColumn({ name: 'steam_id', referencedColumnName: 'steam_id' })
