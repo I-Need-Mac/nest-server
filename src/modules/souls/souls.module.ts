@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 
 import { Souls } from './souls.entity';
 import { SoulsService } from './souls.service';
@@ -10,8 +10,8 @@ import { GlobalValidationPipe } from '@/common/errors/globalValidatiion.pipe';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Souls])],
-  providers: [SoulsService, GlobalHttpExceptionFilter, GlobalValidationPipe],
   controllers: [SoulsController],
+  providers: [SoulsService],
   exports: [SoulsService],
 })
 export class SoulsModule {}
