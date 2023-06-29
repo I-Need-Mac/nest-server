@@ -17,7 +17,7 @@ import { PresetsService } from '@/modules/presets/presets.service';
 import { SaintSoulsService } from '@/modules/saint_souls/saint_souls.service';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DecryptionMiddleware } from './users.middleware';
+import { DecryptionMiddleware } from '@/common/utils/middleware';
 import { GlobalHttpExceptionFilter } from '@/common/errors/globalHttpException.filter';
 import { GlobalValidationPipe } from '@/common/errors/globalValidatiion.pipe';
 

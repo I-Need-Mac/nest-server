@@ -16,6 +16,7 @@ export class StagesService {
   async update(stage_id: number, stageData: Partial<Stages>): Promise<Stages> {
     const stage = await this.stageRepository.findOne({ where: { id: stage_id } });
     stage.is_clear = stageData.is_clear;
+    stage.is_finished = true;
     stage.play_time = stageData.play_time;
     await this.stageRepository.save(stage);
     return stage;

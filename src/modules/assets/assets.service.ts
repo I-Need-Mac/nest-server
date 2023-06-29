@@ -11,8 +11,7 @@ export class AssetsService {
   async update(steam_id: string, key: number): Promise<Assets> {
     const asset = await this.assetsRepository.findOne({ where: { steam_id: steam_id } });
     asset.key = key;
-    await this.assetsRepository.save(asset);
-    return asset;
+    return await this.assetsRepository.save(asset);
   }
 
   async findOne(steam_id: string): Promise<Assets> {
