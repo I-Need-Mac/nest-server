@@ -7,8 +7,8 @@ import { GlobalValidationPipe } from '@/common/errors/globalValidatiion.pipe';
 import { Stages } from './stages.entity';
 import { StagesService } from './stages.service';
 import { StagesController } from './stages.controller';
-import { DecryptionMiddleware } from './stages.middleware';
 
+import { DecryptionMiddleware } from '@/common/utils/middleware';
 import { PresetsService } from '@presets/presets.service';
 import { Presets } from '@presets/presets.entity';
 import { AssetsService } from '@assets/assets.service';

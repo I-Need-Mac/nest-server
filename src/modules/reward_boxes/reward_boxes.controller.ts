@@ -1,4 +1,43 @@
-import { Controller } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Patch } from '@nestjs/common';
+import { ApiOperation } from '@nestjs/swagger';
+import { RewardBoxesService } from './reward_boxes.service';
+import { FindRewardBoxDto, RewardBoxOpenStartDto } from './reward_boxes.dto';
 
-@Controller('reward-boxes')
-export class RewardBoxesController {}
+@Controller('reward-box')
+export class RewardBoxesController {
+  constructor(private rewardBoxesService: RewardBoxesService) {}
+
+  @ApiOperation({ summary: 'reward box 정보 가져오기' })
+  @Get('/user-own/:steam_id')
+  async findSoul(@Param() data: FindRewardBoxDto) {
+    const userRewardBoxes = await this.rewardBoxesService.getRewardBoxes(data.steam_id);
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'find reward box success',
+      data: userRewardBoxes,
+    };
+  }
+
+  @ApiOperation({ summary: 'reward box 열기 시작!' })
+  @Patch('/open-start')
+  async openStart(@Body() data: RewardBoxOpenStartDto) {
+    try {
+      const userRewardBoxes = await this.rewardBoxesService.openStart({ id: data.id, steam_id: data.steam_id });
+
+      if (userRewardBoxes == null) throw new Error('reward box open start failed');
+
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'open reward box start success',
+        data: userRewardBoxes,
+      };
+    } catch (e) {
+      console.log(e);
+      return {
+        statusCode: HttpStatus.NOT_FOUND,
+        message: 'box open start failed',
+        data: null,
+      };
+    }
+  }
+}
