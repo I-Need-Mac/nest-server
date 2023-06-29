@@ -16,6 +16,7 @@ export class CharactersService {
 
   async update(steam_id: string, character_name: string): Promise<Characters> {
     const character = await this.charactersRepository.findOneBy({ steam_id: steam_id });
+    
     if (!character) return character;
     switch (character_name) {
       case 'seimei':
@@ -37,5 +38,9 @@ export class CharactersService {
         break;
     }
     return this.charactersRepository.save(character);
+  }
+
+  async findOne(steam_id: string): Promise<Characters> {
+    return await this.charactersRepository.findOne({ where: { steam_id } });
   }
 }

@@ -12,9 +12,15 @@ export class SoulsService {
     return await this.soulRepogitory.save(newSoul);
   }
 
+  async findOne(steam_id: string): Promise<Souls> {
+    return await this.soulRepogitory.findOne({ where: { steam_id: steam_id } });
+  }
+
   async soulCount(steam_id: string, saint_soul_type: number, soul: number) {
     var count: number;
-    const userSoul = await this.soulRepogitory.findOneBy({ steam_id: steam_id, saint_soul_type: saint_soul_type });
+    const userSoul = await this.soulRepogitory.findOne({
+      where: { steam_id: steam_id, saint_soul_type: saint_soul_type },
+    });
 
     switch (soul) {
       case 1:
@@ -79,7 +85,9 @@ export class SoulsService {
   }
 
   async unlockUpdate(steam_id: string, saint_soul_type: number, soul: number): Promise<Souls> {
-    const userSoul = await this.soulRepogitory.findOneBy({ steam_id: steam_id, saint_soul_type: saint_soul_type });
+    const userSoul = await this.soulRepogitory.findOne({
+      where: { steam_id: steam_id, saint_soul_type: saint_soul_type },
+    });
     if (!userSoul) return userSoul;
     switch (soul) {
       case 1:
