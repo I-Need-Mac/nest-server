@@ -1,18 +1,19 @@
 import { Module } from '@nestjs/common';
 
 import { Souls } from './souls.entity';
+import { SaintSouls } from '../saint_souls/saint_souls.entity';
 import { SoulsService } from './souls.service';
+import { SaintSoulsService } from '../saint_souls/saint_souls.service';
 import { SoulsController } from './souls.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { GlobalHttpExceptionFilter } from '@/common/errors/globalHttpException.filter';
 import { GlobalValidationPipe } from '@/common/errors/globalValidatiion.pipe';
-// import { UsersService } from '../users/users.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Souls])],
+  imports: [TypeOrmModule.forFeature([Souls, SaintSouls])],
+  providers: [SoulsService, SaintSoulsService],
   controllers: [SoulsController],
-  providers: [SoulsService],
   exports: [SoulsService],
 })
 export class SoulsModule {}

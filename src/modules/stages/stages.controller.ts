@@ -102,16 +102,6 @@ export class StagesController {
         }),
       );
 
-      const rewardBox = await Promise.all(
-        data.reward_box.map(async (box_type) => {
-          return this.RewardBoxesService.create({
-            steam_id: data.steam_id,
-            box_type,
-            stage_id: data.stage_id,
-          });
-        }),
-      );
-
       return {
         statusCode: HttpStatus.OK,
         message: 'stage update successfully',

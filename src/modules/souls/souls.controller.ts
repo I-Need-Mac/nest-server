@@ -1,12 +1,13 @@
-import { Controller, Post, Body, HttpStatus, Patch } from '@nestjs/common';
+import { Controller, Body, HttpStatus, Patch, Get, Query } from '@nestjs/common';
 import { SoulsService } from './souls.service';
 import { ApiOperation } from '@nestjs/swagger';
 
-import { updateSoulDto } from './souls.dto';
+import { SelectAllSoulDto, updateSoulDto } from './souls.dto';
+import { SaintSoulsService } from '../saint_souls/saint_souls.service';
 
 @Controller('souls')
 export class SoulsController {
-  constructor(private SoulsService: SoulsService) {}
+  constructor(private SoulsService: SoulsService, private SaintSoulsService: SaintSoulsService) {}
 
   @ApiOperation({ summary: '소울 해금' })
   @Patch('/open')
@@ -54,6 +55,31 @@ export class SoulsController {
       return {
         statusCode: HttpStatus.BAD_REQUEST,
         message: 'flag without',
+      };
+    }
+  }
+
+  @ApiOperation({ summary: '게임 시작 시 유저 소울 요청' })
+  @Get('/start')
+  async selectAllSoul(@Query() data: SelectAllSoulDto) {
+    console.log('in router : ' + data);
+
+    if (data) {
+      const saint_souls = await this.SaintSoulsService.findOne(data.steam_id);
+      const souls = await this.SoulsService.findAll(data.steam_id);
+
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'select successfully',
+        data: {
+          saint_souls,
+          souls,
+        },
+      };
+    } else {
+      return {
+        statusCode: HttpStatus.BAD_REQUEST,
+        message: 'select failed',
       };
     }
   }

@@ -8,7 +8,7 @@ import { Presets } from '../presets/presets.entity';
 import { SaintSouls } from '../saint_souls/saint_souls.entity';
 import { Souls } from '../souls/souls.entity';
 import { Characters } from '../characters/characters.entity';
-import { Reward_boxes } from '../reward_boxes/reward_boxes.entity';
+import { RewardBoxes } from '../reward_boxes/reward_boxes.entity';
 import { Assets } from '../assets/assets.entity';
 //service
 import { GameService } from './game.service';
@@ -20,7 +20,7 @@ import { CharactersService } from '../characters/characters.service';
 import { AssetsService } from '../assets/assets.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Stages, Presets, SaintSouls, Souls, Characters, Reward_boxes, Assets])],
+  imports: [TypeOrmModule.forFeature([Stages, Presets, SaintSouls, Souls, Characters, RewardBoxes, Assets])],
   providers: [
     GameService,
     StagesService,
