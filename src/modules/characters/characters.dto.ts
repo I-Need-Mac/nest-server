@@ -10,7 +10,7 @@ export class updateCharacterDto {
   @IsString()
   character: string;
 
-  @ApiProperty({ description: '닉네임' })
+  @ApiProperty({ description: '키 개수' })
   @IsNumber()
   key: number;
 }
