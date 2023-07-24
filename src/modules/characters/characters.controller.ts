@@ -13,38 +13,31 @@ export class CharactersController {
   async updateCharacter(@Body() data: updateCharacterDto) {
     console.log('in router :: ', data);
 
-    if (data != undefined) {
-      const asset = await this.assetsService.findOne(data.steam_id);
+    const asset = await this.assetsService.findOne(data.steam_id);
 
-      var sum = asset.key - data.key;
-      if (sum >= 0 && data.key != 0) {
-        await this.assetsService.update(data.steam_id, sum);
-        await this.charactersService.update(data.steam_id, data.character);
+    const sum = asset.key - data.key;
+    if (sum >= 0 && data.key != 0) {
+      await this.assetsService.update(data.steam_id, sum);
+      await this.charactersService.update(data.steam_id, data.character);
 
-        return {
-          statusCode: HttpStatus.OK,
-          message: 'asset & charaters update successfully',
-          data: data.steam_id,
-        };
-      } else if (data.key == 0) {
-        await this.charactersService.update(data.steam_id, data.character);
-
-        return {
-          statusCode: HttpStatus.OK,
-          message: 'charaters update successfully',
-          data: data.steam_id,
-        };
-      } else {
-        return {
-          statusCode: HttpStatus.BAD_REQUEST,
-          message: 'key update failed',
-        };
-      }
-    } else {
       return {
-        statusCode: HttpStatus.BAD_REQUEST,
-        message: 'stage update failed',
+        statusCode: HttpStatus.OK,
+        message: 'asset & charaters update successfully',
+        data: data.steam_id,
+      };
+    } else if (data.key == 0) {
+      await this.charactersService.update(data.steam_id, data.character);
+
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'charaters update successfully',
+        data: data.steam_id,
       };
     }
+
+    return {
+      statusCode: HttpStatus.BAD_REQUEST,
+      message: 'key update failed',
+    };
   }
 }
