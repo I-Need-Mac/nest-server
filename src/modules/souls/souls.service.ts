@@ -16,6 +16,10 @@ export class SoulsService {
     return await this.soulRepogitory.findOne({ where: { steam_id: steam_id } });
   }
 
+  async findAll(steam_id: string): Promise<Souls[]> {
+    return await this.soulRepogitory.find({ where: { steam_id: steam_id } });
+  }
+
   async soulCount(steam_id: string, saint_soul_type: number, soul: number) {
     var count: number;
     const userSoul = await this.soulRepogitory.findOne({
