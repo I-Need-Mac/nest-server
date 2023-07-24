@@ -1,9 +1,10 @@
 import { Controller, Body, HttpStatus, Patch, Get, Query } from '@nestjs/common';
-import { SoulsService } from './souls.service';
 import { ApiOperation } from '@nestjs/swagger';
 
 import { SelectAllSoulDto, updateSoulDto } from './souls.dto';
-import { SaintSoulsService } from '../saint_souls/saint_souls.service';
+import { SoulsService } from './souls.service';
+
+import { SaintSoulsService } from '@saint_souls/saint_souls.service';
 
 @Controller('souls')
 export class SoulsController {
@@ -12,7 +13,7 @@ export class SoulsController {
   @ApiOperation({ summary: '소울 해금' })
   @Patch('/open')
   async updateSoul(@Body() data: updateSoulDto) {
-    if (data.flag == 1) {
+    if (data.flag === 1) {
       const count = await this.SoulsService.soulCount(data.steam_id, data.saint_soul, data.soul);
       if (count >= 7) {
         const soul = await this.SoulsService.unlockUpdate(data.steam_id, data.saint_soul, data.soul);
@@ -33,7 +34,7 @@ export class SoulsController {
           };
         }
       }
-    } else if (data.flag == 2) {
+    } else if (data.flag === 2) {
       const soul = await this.SoulsService.unlockUpdate(data.steam_id, data.saint_soul, data.soul);
       if (soul) {
         return {

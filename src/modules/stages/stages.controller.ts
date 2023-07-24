@@ -2,8 +2,8 @@ import { ApiOperation } from '@nestjs/swagger';
 import { Controller, Post, Body, HttpStatus, Patch } from '@nestjs/common';
 
 import { CreateStageDto, UpdateStageDto } from './stages.dto';
-import { StagesService } from './stages.service';
 
+import { StagesService } from './stages.service';
 import { PresetsService } from '@presets/presets.service';
 import { AssetsService } from '@assets/assets.service';
 import { RewardBoxesService } from '@reward_boxes/reward_boxes.service';
