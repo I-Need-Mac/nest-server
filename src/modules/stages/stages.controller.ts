@@ -1,7 +1,7 @@
 import { ApiOperation } from '@nestjs/swagger';
-import { Controller, Post, Body, HttpStatus, Patch } from '@nestjs/common';
+import { Controller, Post, Body, HttpStatus, Patch, Get, Query } from '@nestjs/common';
 
-import { CreateStageDto, UpdateStageDto } from './stages.dto';
+import { CreateStageDto, RankingDto, UpdateStageDto } from './stages.dto';
 
 import { StagesService } from './stages.service';
 import { PresetsService } from '@presets/presets.service';
@@ -116,6 +116,31 @@ export class StagesController {
       return {
         statusCode: HttpStatus.BAD_REQUEST,
         message: 'stage update failed',
+      };
+    }
+  }
+
+  @ApiOperation({ summary: '랭킹 리스트' })
+  @Get('/ranking')
+  async stageRanking(@Query() data: RankingDto) {
+    console.log('in router :: ', data);
+
+    try {
+      if (data == null && data == undefined) throw new Error('data null');
+
+      const ranking_list = await this.StagesService.stageRankingSelect();
+      const user_ranking = await this.StagesService.userStageRankingSelect(data.steam_id);
+
+      return {
+        data: {
+          ranking_list: ranking_list,
+          user_rank: user_ranking
+        },
+      };
+    } catch (e) {
+      return {
+        statusCode: HttpStatus.BAD_REQUEST,
+        message: 'stage ranking lits failed',
       };
     }
   }

@@ -52,3 +52,13 @@ export class UpdateStageDto {
   @IsNumber({}, { each: true })
   reward_box: number[];
 }
+
+export class RankingDto {
+  @ApiProperty({ description: '스팀아이디' })
+  @IsString()
+  steam_id: string;
+
+  @ApiProperty({ description: '닉네임' })
+  @IsString()
+  name: string;
+}
