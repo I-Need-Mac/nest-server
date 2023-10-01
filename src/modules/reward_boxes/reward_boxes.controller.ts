@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpStatus, Param, Patch } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { RewardBoxesService } from './reward_boxes.service';
-import { FindRewardBoxDto, RewardBoxOpenStartDto } from './reward_boxes.dto';
+import { FindRewardBoxDto, RewardBoxOpenStartDto, RewardBoxOpenEndDto } from './reward_boxes.dto';
 
 @Controller('reward-box')
 export class RewardBoxesController {
@@ -36,6 +36,29 @@ export class RewardBoxesController {
       return {
         statusCode: HttpStatus.NOT_FOUND,
         message: 'box open start failed',
+        data: null,
+      };
+    }
+  }
+
+  @ApiOperation({ summary: 'reward box 보상 받기 !' })
+  @Patch('/open-end')
+  async openEnd(@Body() data: RewardBoxOpenEndDto) {
+    try {
+      const userRewardBoxes = await this.rewardBoxesService.openEnd({ id: data.id, steam_id: data.steam_id });
+
+      if (userRewardBoxes == null) throw new Error('reward box open end failed');
+
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'open reward box end success',
+        data: userRewardBoxes,
+      };
+    } catch (e) {
+      console.log(e);
+      return {
+        statusCode: HttpStatus.NOT_FOUND,
+        message: 'box open end failed',
         data: null,
       };
     }

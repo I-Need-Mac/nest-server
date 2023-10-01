@@ -21,7 +21,7 @@ export class SoulsService {
   }
 
   async soulCount(steam_id: string, saint_soul_type: number, soul: number) {
-    var count: number;
+    let count: number;
     const userSoul = await this.soulRepogitory.findOne({
       where: { steam_id: steam_id, saint_soul_type: saint_soul_type },
     });
