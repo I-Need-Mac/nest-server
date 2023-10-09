@@ -112,16 +112,6 @@ export class RewardBoxesService {
     if (!rewardBox) return null;
 
     const selectedRewardList = await this.setRewardList({ steam_id: rewardBox.steam_id, box_type: rewardBox.box_type });
-    console.log('t: ', selectedRewardList);
-
-    /*
-    t:  [
-  { id: 6, item: 'box_101', amount: 1, weight: 100 },
-  { id: 5, item: 'soul_001_002', amount: 1, weight: 100 },
-  { id: 2, item: 'character_macia', amount: 1, weight: 100 },
-  { id: 1, item: 'key', amount: 1, weight: 100 }
-]
-    */
 
     for (let i = 0; i < selectedRewardList.length; i++) {
       const selectedReward = selectedRewardList[i];
@@ -142,11 +132,14 @@ export class RewardBoxesService {
         case 'soul':
           const soulTypes = selectedReward.item.split('_').slice(-2);
           const [saintSoulType, soulType] = soulTypes.map((s: string) => parseInt(s));
-          const souls = await this.soulsService.findAll(steam_id);
+          await this.soulsService.update(steam_id, saintSoulType, soulType, selectedReward.amount);
           break;
       }
     }
-    // rewardBox.is_open = true;
+
+    console.log('=======selectedRewardList===========\n', selectedRewardList);
+
+    rewardBox.is_open = true;
     return await this.rewardBoxesRepository.save(rewardBox);
   }
 }
