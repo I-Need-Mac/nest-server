@@ -11,7 +11,7 @@ import { DecryptionMiddleware } from './characters.middleware';
   imports: [TypeOrmModule.forFeature([Characters, Assets])],
   controllers: [CharactersController],
   providers: [CharactersService, AssetsService],
-  exports: [CharactersService, AssetsService],
+  exports: [CharactersService],
 })
 export class CharactersModule {
   configure(consumer: MiddlewareConsumer) {

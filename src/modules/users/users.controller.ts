@@ -36,7 +36,7 @@ export class UsersController {
     return {
       statusCode: HttpStatus.OK,
       message: 'User created successfully',
-      data: encrypt(JSON.stringify({ isDuplicated })),
+      data: { isDuplicated },
     };
   }
 

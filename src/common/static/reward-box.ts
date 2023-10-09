@@ -1,40 +1,52 @@
-interface Reward {
-  itemKey: string;
+import * as fs from 'fs';
+import * as csv from 'csv-parser';
+
+interface RewardBox {
+  id: number;
+  group: number;
+  item: string;
   amount: number;
   weight: number;
 }
 
-class LowestBox1 {
-  rewardArray: Reward[];
-  totalWeight: number;
+const isEmptyObject = (obj: any) => {
+  return obj.constructor === Object && Object.keys(obj).length === 0;
+};
 
-  constructor(rewardArray: Reward[]) {
-    this.rewardArray = rewardArray;
-    this.totalWeight = rewardArray.reduce((prev, cur) => prev + cur.weight, 0);
-  }
+const getRewardBoxesData = () =>
+  new Promise((resolve, reject) => {
+    const RewardBoxesData = {};
 
-  getReward() {
-    const randomTarget = Math.floor(Math.random() * this.totalWeight) + 1;
+    fs.createReadStream('./src/common/static/dummy_reward_box.csv')
+      .pipe(csv())
+      .on('data', (row: RewardBox) => {
+        if (RewardBoxesData[row.group] == null) {
+          RewardBoxesData[row.group] = [];
+        }
+        RewardBoxesData[row.group].push({
+          id: Number(row.id),
+          item: row.item,
+          amount: Number(row.amount),
+          weight: Number(row.weight),
+        });
+      })
+      .on('end', () => {
+        console.log('CSV file to data objects successfully processed');
+        resolve(RewardBoxesData);
+      })
+      .on('error', (err) => {
+        console.log(err);
+        reject({});
+      });
+  });
 
-    let weight = 0;
-    for (const reward of this.rewardArray) {
-      weight += reward.weight;
-      if (weight >= randomTarget) {
-        console.log(weight, randomTarget);
-        return reward;
-      }
+export const getRewardBoxObject = async () => {
+  const rewardBoxes = await getRewardBoxesData();
+
+  return async () => {
+    if (isEmptyObject(rewardBoxes)) {
+      return await getRewardBoxesData();
     }
-  }
-}
-
-/*
-  { itemKey: 'key', amount: 2, weight: 10 },
-  { itemKey: 'box_[box_grade]', amount: 1, weight: 5 },
-  { itemKey: 'soul_[saint_soul_name]_[soul_name]', amount: 2, weight: 1 },
-*/
-
-export const LowestBox1Instance = new LowestBox1([
-  { itemKey: 'key', amount: 2, weight: 10 },
-  { itemKey: 'box_low', amount: 1, weight: 5 },
-  { itemKey: 'soul_001_001', amount: 2, weight: 1 },
-]);
+    return rewardBoxes;
+  };
+};

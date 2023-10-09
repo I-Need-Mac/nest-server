@@ -4,8 +4,6 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { GlobalValidationPipe } from './common/errors/globalValidatiion.pipe';
 import { GlobalHttpExceptionFilter } from './common/errors/globalHttpException.filter';
 
-import { LowestBox1Instance } from './common/static/reward-box';
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
   app.enableCors();
@@ -21,9 +19,6 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
-
-  console.log(LowestBox1Instance.getReward());
-  console.log('---------random reward test------------');
 
   await app.listen(5002);
 }

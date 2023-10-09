@@ -134,7 +134,7 @@ export class StagesController {
       return {
         data: {
           ranking_list: ranking_list,
-          user_rank: user_ranking
+          user_rank: user_ranking,
         },
       };
     } catch (e) {
