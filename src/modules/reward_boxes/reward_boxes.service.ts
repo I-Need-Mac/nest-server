@@ -10,6 +10,34 @@ import { SaintSoulsService } from '../saint_souls/saint_souls.service';
 import { getRewardBoxObject } from '@/common/static/reward-box';
 import { SoulsService } from '../souls/souls.service';
 
+const SOUL_UNLOCK_COUNT = 7;
+
+const checkCharacters = (userCharacters, rewardCharacter) => {
+  const rewardCharacterName = rewardCharacter.split('_')[1].toLowerCase();
+  return userCharacters[rewardCharacterName] === false;
+};
+
+const checkSouls = (userSouls, rewardSouls) => {
+  const soulTypes = rewardSouls.split('_').slice(-2);
+  const [saintSoulType, soulType] = soulTypes.map((s: string) => parseInt(s));
+  const saintSoul = userSouls.filter((userSoul) => userSoul.saint_soul_type === saintSoulType)[0];
+
+  return saintSoul[`soul${soulType}`] !== -1 && saintSoul[`soul${soulType}`] < SOUL_UNLOCK_COUNT;
+};
+
+const getRandomReward = (filteredReward) => {
+  const totalWeight = filteredReward.reduce((sum, item) => sum + item.weight, 0);
+
+  let randomNum = Math.random() * totalWeight;
+
+  for (let i = 0; i < filteredReward.length; i++) {
+    if (randomNum < filteredReward[i].weight) {
+      return filteredReward[i];
+    }
+    randomNum -= filteredReward[i].weight;
+  }
+};
+
 @Injectable()
 export class RewardBoxesService {
   constructor(
@@ -38,27 +66,64 @@ export class RewardBoxesService {
     return await this.rewardBoxesRepository.save(rewardBox);
   }
 
-  async setReward({ steam_id, box_type }: { steam_id: string; box_type: number }) {
-    const getStaticRewardBox = (await (await getRewardBoxObject())())[box_type];
+  async setRewardList({ steam_id, box_type }: { steam_id: string; box_type: number }) {
+    const staticRewardBox = (await (await getRewardBoxObject())())[box_type];
     const characters = await this.charactersService.findOne(steam_id);
-    const assets = await this.assetsService.findOne(steam_id);
-    const saintSouls = await this.saintSoulsService.findOne(steam_id);
     const souls = await this.souls.findAll(steam_id);
 
-    console.log('getStaticRewardBox :: ', getStaticRewardBox);
-    console.log('characters :: ', characters);
-    console.log('saintSouls :: ', assets);
-    console.log('assets :: ', saintSouls);
-    console.log('souls :: ', souls);
+    const getFilteredReward = () =>
+      staticRewardBox.filter((reward) => {
+        const rewardType = reward.item.split('_')[0];
+        switch (rewardType) {
+          case 'key':
+          case 'box':
+            return true;
+          case 'character':
+            return checkCharacters(characters, reward.item);
+          case 'soul':
+            return checkSouls(souls, reward.item);
+        }
+      });
 
-    return;
+    const selectedRewardList = [];
+
+    for (let i = 0; i < 4; i++) {
+      const filteredReward = getFilteredReward();
+      if (filteredReward.length === 0) break;
+
+      const reward = getRandomReward(filteredReward);
+      selectedRewardList.push(reward);
+
+      const rewardType = reward.item.split('_')[0];
+      if (rewardType === 'character') {
+        characters[reward.item.split('_')[1].toLowerCase()] = true;
+      } else if (rewardType === 'soul') {
+        const soulTypes = reward.item.split('_').slice(-2);
+        const [saintSoulType, soulType] = soulTypes.map((s: string) => parseInt(s));
+        const saintSoul = souls.filter((userSoul) => userSoul.saint_soul_type === saintSoulType)[0];
+
+        saintSoul[`soul${soulType}`] += reward.amount;
+      }
+    }
+
+    return selectedRewardList;
   }
 
   async openEnd({ id, steam_id }: Partial<RewardBoxes>): Promise<RewardBoxes> {
     const rewardBox = await this.rewardBoxesRepository.findOne({ where: { id, steam_id } });
     if (!rewardBox) return null;
 
-    this.setReward({ steam_id: rewardBox.steam_id, box_type: rewardBox.box_type });
+    const selectedReward = await this.setRewardList({ steam_id: rewardBox.steam_id, box_type: rewardBox.box_type });
+    console.log('t: ', selectedReward);
+
+    /*
+    t:  [
+  { id: 6, item: 'box_101', amount: 1, weight: 100 },
+  { id: 5, item: 'soul_001_002', amount: 1, weight: 100 },
+  { id: 2, item: 'character_macia', amount: 1, weight: 100 },
+  { id: 1, item: 'key', amount: 1, weight: 100 }
+]
+    */
 
     // rewardBox.is_open = true;
     return await this.rewardBoxesRepository.save(rewardBox);
