@@ -5,7 +5,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { CharactersService } from '../characters/characters.service';
 import { AssetsService } from '../assets/assets.service';
-import { SaintSoulsService } from '../saint_souls/saint_souls.service';
 
 import { getRewardBoxObject } from '@/common/static/reward-box';
 import { SoulsService } from '../souls/souls.service';
@@ -45,8 +44,7 @@ export class RewardBoxesService {
     private rewardBoxesRepository: Repository<RewardBoxes>,
     private charactersService: CharactersService,
     private assetsService: AssetsService,
-    private saintSoulsService: SaintSoulsService,
-    private souls: SoulsService,
+    private soulsService: SoulsService,
   ) {
     this.rewardBoxesRepository = rewardBoxesRepository;
   }
@@ -69,7 +67,7 @@ export class RewardBoxesService {
   async setRewardList({ steam_id, box_type }: { steam_id: string; box_type: number }) {
     const staticRewardBox = (await (await getRewardBoxObject())())[box_type];
     const characters = await this.charactersService.findOne(steam_id);
-    const souls = await this.souls.findAll(steam_id);
+    const souls = await this.soulsService.findAll(steam_id);
 
     const getFilteredReward = () =>
       staticRewardBox.filter((reward) => {
@@ -113,8 +111,8 @@ export class RewardBoxesService {
     const rewardBox = await this.rewardBoxesRepository.findOne({ where: { id, steam_id } });
     if (!rewardBox) return null;
 
-    const selectedReward = await this.setRewardList({ steam_id: rewardBox.steam_id, box_type: rewardBox.box_type });
-    console.log('t: ', selectedReward);
+    const selectedRewardList = await this.setRewardList({ steam_id: rewardBox.steam_id, box_type: rewardBox.box_type });
+    console.log('t: ', selectedRewardList);
 
     /*
     t:  [
@@ -125,6 +123,29 @@ export class RewardBoxesService {
 ]
     */
 
+    for (let i = 0; i < selectedRewardList.length; i++) {
+      const selectedReward = selectedRewardList[i];
+      const rewardType = selectedReward.item.split('_')[0];
+      switch (rewardType) {
+        case 'key':
+          const userAsset = await this.assetsService.findOne(steam_id);
+          await this.assetsService.update(rewardBox.steam_id, userAsset.key + selectedReward.amount);
+          break;
+        case 'box':
+          const boxType = selectedReward.item.split('_')[1];
+          await this.create({ steam_id, box_type: boxType, stage_id: -1 });
+          break;
+        case 'character':
+          const characterName = selectedReward.item.split('_')[1].toLowerCase();
+          await this.charactersService.update(steam_id, characterName);
+          break;
+        case 'soul':
+          const soulTypes = selectedReward.item.split('_').slice(-2);
+          const [saintSoulType, soulType] = soulTypes.map((s: string) => parseInt(s));
+          const souls = await this.soulsService.findAll(steam_id);
+          break;
+      }
+    }
     // rewardBox.is_open = true;
     return await this.rewardBoxesRepository.save(rewardBox);
   }
