@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { GlobalHttpExceptionFilter } from '@/common/errors/globalHttpException.filter';
@@ -38,6 +38,12 @@ import { SoulsModule } from '../souls/souls.module';
 })
 export class StagesModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(DecryptionMiddleware).forRoutes('stage');
+    consumer
+      .apply(DecryptionMiddleware)
+      .exclude({
+        path: 'stage/ranking',
+        method: RequestMethod.GET,
+      })
+      .forRoutes('stage');
   }
 }
