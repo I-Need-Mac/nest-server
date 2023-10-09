@@ -21,71 +21,50 @@ export class SoulsService {
   }
 
   async soulCount(steam_id: string, saint_soul_type: number, soul: number) {
-    let count: number;
     const userSoul = await this.soulRepogitory.findOne({
       where: { steam_id: steam_id, saint_soul_type: saint_soul_type },
     });
 
     switch (soul) {
       case 1:
-        count = userSoul.soul1;
-        break;
+        return userSoul.soul1;
       case 2:
-        count = userSoul.soul2;
-        break;
+        return userSoul.soul2;
       case 3:
-        count = userSoul.soul3;
-        break;
+        return userSoul.soul3;
       case 4:
-        count = userSoul.soul4;
-        break;
+        return userSoul.soul4;
       case 5:
-        count = userSoul.soul5;
-        break;
+        return userSoul.soul5;
       case 6:
-        count = userSoul.soul6;
-        break;
+        return userSoul.soul6;
       case 7:
-        count = userSoul.soul7;
-        break;
+        return userSoul.soul7;
       case 8:
-        count = userSoul.soul8;
-        break;
+        return userSoul.soul8;
       case 9:
-        count = userSoul.soul9;
-        break;
+        return userSoul.soul9;
       case 10:
-        count = userSoul.soul10;
-        break;
+        return userSoul.soul10;
       case 11:
-        count = userSoul.soul11;
-        break;
+        return userSoul.soul11;
       case 12:
-        count = userSoul.soul12;
-        break;
+        return userSoul.soul12;
       case 13:
-        count = userSoul.soul13;
-        break;
+        return userSoul.soul13;
       case 14:
-        count = userSoul.soul14;
-        break;
+        return userSoul.soul14;
       case 15:
-        count = userSoul.soul15;
-        break;
+        return userSoul.soul15;
       case 16:
-        count = userSoul.soul16;
-        break;
+        return userSoul.soul16;
       case 17:
-        count = userSoul.soul17;
-        break;
+        return userSoul.soul17;
       case 18:
-        count = userSoul.soul18;
-        break;
+        return userSoul.soul18;
       default:
-        break;
+        return null;
     }
-
-    return count;
   }
 
   async unlockUpdate(steam_id: string, saint_soul_type: number, soul: number): Promise<Souls> {
