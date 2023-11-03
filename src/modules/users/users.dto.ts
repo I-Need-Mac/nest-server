@@ -20,8 +20,4 @@ export class LoginDto {
   @ApiProperty({ description: '스팀아이디' })
   @IsString()
   steam_id: string;
-
-  @ApiProperty({ description: 'name' })
-  @IsString()
-  name: string;
 }

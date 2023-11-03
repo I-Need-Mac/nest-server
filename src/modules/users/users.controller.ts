@@ -93,8 +93,8 @@ export class UsersController {
 
   @Post('/login')
   async login(@Body() data: LoginDto) {
-    const { steam_id, name } = data;
-    const user = await this.usersService.update({ steam_id, name });
+    const { steam_id } = data;
+    const user = await this.usersService.update({ steam_id });
     return {
       statusCode: user ? HttpStatus.OK : HttpStatus.NOT_FOUND,
       message: user ? 'User created successfully' : 'no user',
