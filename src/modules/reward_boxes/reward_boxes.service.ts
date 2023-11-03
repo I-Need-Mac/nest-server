@@ -1,7 +1,9 @@
+import * as dayjs from 'dayjs';
 import { Injectable } from '@nestjs/common';
-import { RewardBoxes } from './reward_boxes.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+
+import { RewardBoxes } from './reward_boxes.entity';
 
 import { CharactersService } from '../characters/characters.service';
 import { AssetsService } from '../assets/assets.service';
@@ -64,8 +66,26 @@ export class RewardBoxesService {
     return await this.rewardBoxesRepository.save(rewardBox);
   }
 
+  async validate({ id, steam_id }: Partial<RewardBoxes>): Promise<boolean> {
+    const {
+      open_start_time: openStartTime,
+      box_type: boxType,
+      is_open,
+    } = await this.rewardBoxesRepository.findOne({
+      where: { id, steam_id },
+    });
+
+    if (is_open) return false;
+
+    const { RewardBoxesTimeData } = await (await getRewardBoxObject())();
+    const rewardBoxTime = RewardBoxesTimeData[boxType];
+
+    return dayjs().diff(dayjs(openStartTime), 'minute') >= rewardBoxTime;
+  }
+
   async setRewardList({ steam_id, box_type }: { steam_id: string; box_type: number }) {
-    const staticRewardBox = (await (await getRewardBoxObject())())[box_type];
+    const { RewardBoxesData } = await (await getRewardBoxObject())();
+    const staticRewardBox = RewardBoxesData[box_type];
     const characters = await this.charactersService.findOne(steam_id);
     const souls = await this.soulsService.findAll(steam_id);
 

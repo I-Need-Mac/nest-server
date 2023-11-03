@@ -45,9 +45,18 @@ export class RewardBoxesController {
   @Patch('/open-end')
   async openEnd(@Body() data: RewardBoxOpenEndDto) {
     try {
+      const validation = await this.rewardBoxesService.validate({ id: data.id, steam_id: data.steam_id });
+
+      if (!validation) {
+        console.log('---------------reward box time validation failed');
+        throw new Error('reward box time validation failed');
+      }
+
       const userRewardBoxes = await this.rewardBoxesService.openEnd({ id: data.id, steam_id: data.steam_id });
 
       if (userRewardBoxes == null) throw new Error('reward box open end failed');
+
+      // history 에 기록 추가
 
       return {
         statusCode: HttpStatus.OK,

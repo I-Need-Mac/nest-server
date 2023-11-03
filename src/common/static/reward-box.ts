@@ -9,13 +9,30 @@ interface RewardBox {
   weight: number;
 }
 
+interface RewardBoxTime {
+  id: number;
+  opening_time: number;
+}
+
+interface RewardBoxObject {
+  [group: string]: Omit<RewardBox, 'group'>[];
+}
+
+interface RewardBoxTimeObject {
+  [id: string]: number;
+}
+
 const isEmptyObject = (obj: any) => {
   return obj.constructor === Object && Object.keys(obj).length === 0;
 };
 
-const getRewardBoxesData = () =>
+const getRewardBoxesData = (): Promise<{
+  RewardBoxesData: RewardBoxObject;
+  RewardBoxesTimeData: RewardBoxTimeObject;
+}> =>
   new Promise((resolve, reject) => {
     const RewardBoxesData = {};
+    const RewardBoxesTimeData = {};
 
     fs.createReadStream('./src/common/static/dummy_reward_box.csv')
       .pipe(csv())
@@ -31,8 +48,22 @@ const getRewardBoxesData = () =>
         });
       })
       .on('end', () => {
-        console.log('CSV file to data objects successfully processed');
-        resolve(RewardBoxesData);
+        console.log('[reward_box]: CSV file to data objects successfully processed');
+      })
+      .on('error', (err) => {
+        console.log(err);
+        reject({});
+      });
+
+    fs.createReadStream('./src/common/static/reward_box.csv')
+      .pipe(csv())
+      .on('data', (row: RewardBoxTime) => {
+        console.log('test: ', row);
+        RewardBoxesTimeData[101] = Number(10);
+      })
+      .on('end', () => {
+        resolve({ RewardBoxesData, RewardBoxesTimeData });
+        console.log('[reward box time]: CSV file to data objects successfully processed');
       })
       .on('error', (err) => {
         console.log(err);
@@ -41,12 +72,14 @@ const getRewardBoxesData = () =>
   });
 
 export const getRewardBoxObject = async () => {
-  const rewardBoxes = await getRewardBoxesData();
+  const { RewardBoxesData, RewardBoxesTimeData } = await getRewardBoxesData();
+  console.log('----------------');
+  console.log(RewardBoxesTimeData);
 
   return async () => {
-    if (isEmptyObject(rewardBoxes)) {
+    if (isEmptyObject(RewardBoxesData) || isEmptyObject(RewardBoxesTimeData)) {
       return await getRewardBoxesData();
     }
-    return rewardBoxes;
+    return { RewardBoxesData, RewardBoxesTimeData };
   };
 };
