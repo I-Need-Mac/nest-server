@@ -1,8 +1,7 @@
-import { Body, Controller, Get, Query } from '@nestjs/common';
+import { Body, Controller, Get, Query, HttpStatus } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { SelectAllDto } from './game.dto';
 import { StagesService } from '../stages/stages.service';
-import HttpStatus from '@/common/types/status';
 import { PresetsService } from '../presets/presets.service';
 import { AssetsService } from '../assets/assets.service';
 import { SaintSoulsService } from '../saint_souls/saint_souls.service';
@@ -25,22 +24,42 @@ export class GameController {
   async selectAll(@Query() data: SelectAllDto) {
     console.log('in router :: ', data);
 
+    // 스테이지가 없을 수도 있음
     if (data === null || data === undefined) throw new Error('Data does not exist.');
     const lastStage = await this.stageService.lastStageSelect(data.steam_id);
     const highStage = await this.stageService.highStageSelect(data.steam_id);
+
+    // 없으면 안돼는 것
     const preset = await this.persetService.findOne(data.steam_id);
     const asset = await this.assetsService.findOne(data.steam_id);
     const character = await this.charactersService.findOne(data.steam_id);
+
+    if (preset === undefined) {
+      return {
+        statusCode: HttpStatus.BAD_REQUEST,
+        message: 'Preset data does not exist.',
+      };
+    } else if (asset === undefined) {
+      return {
+        statusCode: HttpStatus.BAD_REQUEST,
+        message: 'asset data does not exist.',
+      };
+    } else if (character === undefined) {
+      return {
+        statusCode: HttpStatus.BAD_REQUEST,
+        message: 'character data does not exist.',
+      };
+    }
 
     return {
       statusCode: HttpStatus.OK,
       message: 'Select all successfully',
       data: {
         steam_id: data.steam_id,
-        high_stage: highStage.stage,
-        last_stage: lastStage.stage,
-        last_is_finished: lastStage.is_finished,
-        last_is_clear: lastStage.is_clear,
+        high_stage: highStage ? highStage.stage : '',
+        last_stage: lastStage ? lastStage.stage : '',
+        last_is_finished: lastStage ? lastStage.is_finished : '',
+        last_is_clear: lastStage ? lastStage.is_clear : '',
         last_saint_soul_type: preset.saint_soul_type,
         last_soul1: preset.soul1,
         last_soul2: preset.soul2,
