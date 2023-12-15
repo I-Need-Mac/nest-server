@@ -10,6 +10,8 @@ export class RewardBoxesController {
   @ApiOperation({ summary: 'reward box 정보 가져오기' })
   @Get('/user-own/:steam_id')
   async findSoul(@Param() data: FindRewardBoxDto) {
+    if (data === null || data === undefined) throw new Error('Data does not exist.');
+
     const userRewardBoxes = await this.rewardBoxesService.getRewardBoxes(data.steam_id);
     return {
       statusCode: HttpStatus.OK,

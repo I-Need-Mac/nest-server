@@ -25,6 +25,7 @@ export class GameController {
     console.log('in router :: ', data);
 
     // 스테이지가 없을 수도 있음
+    if (data === null || data === undefined) throw new Error('Data does not exist.');
     const lastStage = await this.stageService.lastStageSelect(data.steam_id);
     const highStage = await this.stageService.highStageSelect(data.steam_id);
 

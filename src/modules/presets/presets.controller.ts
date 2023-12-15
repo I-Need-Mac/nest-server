@@ -11,7 +11,10 @@ export class PresetsController {
   @ApiOperation({ summary: 'preset soul 정보 가져오기' })
   @Get('/soul')
   async findSoul(@Query() data: SelectPresetDto) {
+    if (data === null || data === undefined) throw new Error('Data does not exist.');
+
     const { steam_id } = data;
+
     const preset = await this.PresetsService.findOne(steam_id);
     console.log('in router :: ', steam_id);
     return {
@@ -32,7 +35,10 @@ export class PresetsController {
   @ApiOperation({ summary: 'preset character 정보 가져오기' })
   @Get('/character')
   async findCharacter(@Query() data: SelectPresetDto) {
+    if (data === null || data === undefined) throw new Error('Data does not exist.');
+
     const { steam_id } = data;
+
     const preset = await this.PresetsService.findOne(steam_id);
     console.log('in router :: ', steam_id);
     return {
