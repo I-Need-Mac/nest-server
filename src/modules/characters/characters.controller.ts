@@ -13,6 +13,7 @@ export class CharactersController {
   async updateCharacter(@Body() data: updateCharacterDto) {
     console.log('in router :: ', data);
 
+    if (data === null || data === undefined) throw new Error('Data does not exist.');
     const asset = await this.assetsService.findOne(data.steam_id);
 
     const sum = asset.key - data.key;

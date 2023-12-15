@@ -21,11 +21,12 @@ export class StagesController {
   @Post('/start')
   async createStage(@Body() data: CreateStageDto) {
     console.log('in router :: ', data);
-    const asset = await this.AssetsService.findOne(data.steam_id);
 
     try {
-      if (data == null) throw new Error('data is null');
+      if (data === null || data === undefined) throw new Error('Data does not exist.');
       if (data.soul.length != 6) throw new Error('soul length is not 6');
+
+      const asset = await this.AssetsService.findOne(data.steam_id);
 
       if (asset.key != 0) {
         const key_sum = asset.key - data.key;
@@ -83,7 +84,7 @@ export class StagesController {
     console.log('in router :: ', data);
 
     try {
-      if (data == null) throw new Error('data is null');
+      if (data === null || data === undefined) throw new Error('Data does not exist.');
       if (data.reward_box.length > 4 || data.reward_box.length === 0) throw new Error('reward box length is over 4');
 
       const stage = await this.StagesService.update(data.stage_id, {
@@ -126,7 +127,7 @@ export class StagesController {
     console.log('in router :: ', data);
 
     try {
-      if (data == null && data == undefined) throw new Error('data null');
+      if (data === null && data === undefined) throw new Error('Data does not exist.');
 
       const ranking_list = await this.StagesService.stageRankingSelect();
       const user_ranking = await this.StagesService.userStageRankingSelect(data.steam_id);

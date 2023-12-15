@@ -25,6 +25,7 @@ export class GameController {
   async selectAll(@Query() data: SelectAllDto) {
     console.log('in router :: ', data);
 
+    if (data === null || data === undefined) throw new Error('Data does not exist.');
     const lastStage = await this.stageService.lastStageSelect(data.steam_id);
     const highStage = await this.stageService.highStageSelect(data.steam_id);
     const preset = await this.persetService.findOne(data.steam_id);

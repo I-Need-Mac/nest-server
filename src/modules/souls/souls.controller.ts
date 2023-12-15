@@ -13,6 +13,8 @@ export class SoulsController {
   @ApiOperation({ summary: '소울 해금' })
   @Patch('/open')
   async updateSoul(@Body() data: updateSoulDto) {
+    if (data === null || data === undefined) throw new Error('Data does not exist.');
+
     if (data.flag === 1) {
       const count = await this.SoulsService.soulCount(data.steam_id, data.saint_soul, data.soul);
       if (count >= 7) {
@@ -64,6 +66,8 @@ export class SoulsController {
   @Get('/start')
   async selectAllSoul(@Query() data: SelectAllSoulDto) {
     console.log('in router : ' + data);
+
+    if (data === null || data === undefined) throw new Error('Data does not exist.');
 
     if (data) {
       const saint_souls = await this.SaintSoulsService.findOne(data.steam_id);
