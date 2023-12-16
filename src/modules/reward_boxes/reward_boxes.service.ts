@@ -10,6 +10,7 @@ import { AssetsService } from '../assets/assets.service';
 
 import { getRewardBoxObject } from '@/common/static/reward-box';
 import { SoulsService } from '../souls/souls.service';
+import { RewardHistoriesService } from '../reward_histories/reward_histories.service';
 
 const SOUL_UNLOCK_COUNT = 7;
 
@@ -47,6 +48,7 @@ export class RewardBoxesService {
     private charactersService: CharactersService,
     private assetsService: AssetsService,
     private soulsService: SoulsService,
+    private rewardHistoriesService: RewardHistoriesService,
   ) {
     this.rewardBoxesRepository = rewardBoxesRepository;
   }
@@ -161,9 +163,16 @@ export class RewardBoxesService {
       }
     }
 
-    console.log('=======selectedRewardList===========\n', selectedRewardList);
+    await this.rewardHistoriesService.create({
+      steam_id: rewardBox.steam_id,
+      reward_box_id: rewardBox.id,
+      reward1: selectedRewardList[0] ? JSON.stringify(selectedRewardList[0]) : null,
+      reward2: selectedRewardList[1] ? JSON.stringify(selectedRewardList[1]) : null,
+      reward3: selectedRewardList[2] ? JSON.stringify(selectedRewardList[2]) : null,
+      reward4: selectedRewardList[3] ? JSON.stringify(selectedRewardList[3]) : null,
+    });
 
-    // rewardBox.is_open = true;
+    rewardBox.is_open = true;
     return await this.rewardBoxesRepository.save(rewardBox);
   }
 }

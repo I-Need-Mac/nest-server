@@ -59,7 +59,7 @@ export class StagesService {
     return list;
   }
 
-  async userStageRankingSelect(steam_id:  string) {
+  async userStageRankingSelect(steam_id: string) {
     const list = this.stageRepository.query(`
       SELECT c.* FROM 
         (SELECT (@rank := @rank + 1) as ranking, a.* FROM 

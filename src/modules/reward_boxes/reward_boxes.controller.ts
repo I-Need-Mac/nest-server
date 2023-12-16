@@ -56,8 +56,6 @@ export class RewardBoxesController {
 
       if (userRewardBoxes == null) throw new Error('reward box open end failed');
 
-      // history 에 기록 추가
-
       return {
         statusCode: HttpStatus.OK,
         message: 'open reward box end success',
