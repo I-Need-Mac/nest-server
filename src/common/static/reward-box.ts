@@ -8,18 +8,25 @@ interface RewardBox {
   amount: number;
   weight: number;
 }
-
-interface RewardBoxTime {
+interface RewardBoxProb {
   id: number;
   opening_time: number;
+  box_type_1: number;
+  box_type_1_prob: number;
+  box_type_2: number;
+  box_type_2_prob: number;
+  box_type_3: number;
+  box_type_3_prob: number;
+  box_type_4: number;
+  box_type_4_prob: number;
 }
 
 interface RewardBoxObject {
   [group: string]: Omit<RewardBox, 'group'>[];
 }
 
-interface RewardBoxTimeObject {
-  [id: string]: number;
+interface RewardBoxProbObject {
+  [group: string]: Omit<RewardBoxProb, 'id'>;
 }
 
 const isEmptyObject = (obj: any) => {
@@ -28,11 +35,11 @@ const isEmptyObject = (obj: any) => {
 
 const getRewardBoxesData = (): Promise<{
   RewardBoxesData: RewardBoxObject;
-  RewardBoxesTimeData: RewardBoxTimeObject;
+  RewardBoxesProbData: RewardBoxProbObject;
 }> =>
   new Promise((resolve, reject) => {
     const RewardBoxesData = {};
-    const RewardBoxesTimeData = {};
+    const RewardBoxesProbData = {};
 
     fs.createReadStream('./src/common/static/dummy_reward_box.csv')
       .pipe(csv())
@@ -57,12 +64,21 @@ const getRewardBoxesData = (): Promise<{
 
     fs.createReadStream('./src/common/static/reward_box.csv')
       .pipe(csv())
-      .on('data', (row: RewardBoxTime) => {
-        console.log('test: ', row);
-        RewardBoxesTimeData[101] = Number(10);
+      .on('data', (row: RewardBoxProb) => {
+        RewardBoxesProbData[row.id] = {
+          opening_time: Number(row.opening_time),
+          box_type_1: Number(row.box_type_1),
+          box_type_1_prob: Number(row.box_type_1_prob),
+          box_type_2: Number(row.box_type_2),
+          box_type_2_prob: Number(row.box_type_2_prob),
+          box_type_3: Number(row.box_type_3),
+          box_type_3_prob: Number(row.box_type_3_prob),
+          box_type_4: Number(row.box_type_4),
+          box_type_4_prob: Number(row.box_type_4_prob),
+        };
       })
       .on('end', () => {
-        resolve({ RewardBoxesData, RewardBoxesTimeData });
+        resolve({ RewardBoxesData, RewardBoxesProbData });
         console.log('[reward box time]: CSV file to data objects successfully processed');
       })
       .on('error', (err) => {
@@ -72,14 +88,14 @@ const getRewardBoxesData = (): Promise<{
   });
 
 export const getRewardBoxObject = async () => {
-  const { RewardBoxesData, RewardBoxesTimeData } = await getRewardBoxesData();
+  const { RewardBoxesData, RewardBoxesProbData } = await getRewardBoxesData();
   console.log('----------------');
-  console.log(RewardBoxesTimeData);
+  console.log(RewardBoxesProbData);
 
   return async () => {
-    if (isEmptyObject(RewardBoxesData) || isEmptyObject(RewardBoxesTimeData)) {
+    if (isEmptyObject(RewardBoxesData) || isEmptyObject(RewardBoxesProbData)) {
       return await getRewardBoxesData();
     }
-    return { RewardBoxesData, RewardBoxesTimeData };
+    return { RewardBoxesData, RewardBoxesProbData };
   };
 };

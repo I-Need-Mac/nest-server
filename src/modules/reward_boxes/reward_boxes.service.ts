@@ -77,20 +77,19 @@ export class RewardBoxesService {
 
     if (is_open) return false;
 
-    const { RewardBoxesTimeData } = await (await getRewardBoxObject())();
-    const rewardBoxTime = RewardBoxesTimeData[boxType];
+    const { RewardBoxesProbData } = await (await getRewardBoxObject())();
+    const rewardBox = RewardBoxesProbData[boxType];
 
-    return dayjs().diff(dayjs(openStartTime), 'minute') >= rewardBoxTime;
+    return dayjs().diff(dayjs(openStartTime), 'minute') >= rewardBox.opening_time;
   }
 
   async setRewardList({ steam_id, box_type }: { steam_id: string; box_type: number }) {
-    const { RewardBoxesData } = await (await getRewardBoxObject())();
-    const staticRewardBox = RewardBoxesData[box_type];
+    const { RewardBoxesData, RewardBoxesProbData } = await (await getRewardBoxObject())();
     const characters = await this.charactersService.findOne(steam_id);
     const souls = await this.soulsService.findAll(steam_id);
 
-    const getFilteredReward = () =>
-      staticRewardBox.filter((reward) => {
+    const getFilteredReward = (box_type) =>
+      RewardBoxesData[box_type].filter((reward) => {
         const rewardType = reward.item.split('_')[0];
         switch (rewardType) {
           case 'key':
@@ -106,7 +105,9 @@ export class RewardBoxesService {
     const selectedRewardList = [];
 
     for (let i = 0; i < 4; i++) {
-      const filteredReward = getFilteredReward();
+      if (Math.random() * 100 >= RewardBoxesProbData[box_type][`box_type_${i + 1}_prob`]) continue;
+
+      const filteredReward = getFilteredReward(RewardBoxesProbData[box_type][`box_type_${i + 1}`]);
       if (filteredReward.length === 0) break;
 
       const reward = getRandomReward(filteredReward);
@@ -154,12 +155,15 @@ export class RewardBoxesService {
           const [saintSoulType, soulType] = soulTypes.map((s: string) => parseInt(s));
           await this.soulsService.update(steam_id, saintSoulType, soulType, selectedReward.amount);
           break;
+        default:
+          console.log('꽝');
+          break;
       }
     }
 
     console.log('=======selectedRewardList===========\n', selectedRewardList);
 
-    rewardBox.is_open = true;
+    // rewardBox.is_open = true;
     return await this.rewardBoxesRepository.save(rewardBox);
   }
 }
