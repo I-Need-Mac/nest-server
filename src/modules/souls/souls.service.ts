@@ -20,72 +20,119 @@ export class SoulsService {
     return await this.soulRepogitory.find({ where: { steam_id: steam_id } });
   }
 
+  async update(steam_id: string, saint_soul_type: number, soul: number, count: number): Promise<Souls> {
+    const userSoul = await this.soulRepogitory.findOne({
+      where: { steam_id: steam_id, saint_soul_type: saint_soul_type },
+    });
+    if (!userSoul) return userSoul;
+    if (count < 0) return userSoul;
+    switch (soul) {
+      case 1:
+        userSoul.soul1 += count;
+        break;
+      case 2:
+        userSoul.soul2 += count;
+        break;
+      case 3:
+        userSoul.soul3 += count;
+        break;
+      case 4:
+        userSoul.soul4 += count;
+        break;
+      case 5:
+        userSoul.soul5 += count;
+        break;
+      case 6:
+        userSoul.soul6 += count;
+        break;
+      case 7:
+        userSoul.soul7 += count;
+        break;
+      case 8:
+        userSoul.soul8 += count;
+        break;
+      case 9:
+        userSoul.soul9 += count;
+        break;
+      case 10:
+        userSoul.soul10 += count;
+        break;
+      case 11:
+        userSoul.soul11 += count;
+        break;
+      case 12:
+        userSoul.soul12 += count;
+        break;
+      case 13:
+        userSoul.soul13 += count;
+        break;
+      case 14:
+        userSoul.soul14 += count;
+        break;
+      case 15:
+        userSoul.soul15 += count;
+        break;
+      case 16:
+        userSoul.soul16 += count;
+        break;
+      case 17:
+        userSoul.soul17 += count;
+        break;
+      case 18:
+        userSoul.soul18 += count;
+        break;
+      default:
+        break;
+    }
+
+    return this.soulRepogitory.save(userSoul);
+  }
+
   async soulCount(steam_id: string, saint_soul_type: number, soul: number) {
-    let count: number;
     const userSoul = await this.soulRepogitory.findOne({
       where: { steam_id: steam_id, saint_soul_type: saint_soul_type },
     });
 
     switch (soul) {
       case 1:
-        count = userSoul.soul1;
-        break;
+        return userSoul.soul1;
       case 2:
-        count = userSoul.soul2;
-        break;
+        return userSoul.soul2;
       case 3:
-        count = userSoul.soul3;
-        break;
+        return userSoul.soul3;
       case 4:
-        count = userSoul.soul4;
-        break;
+        return userSoul.soul4;
       case 5:
-        count = userSoul.soul5;
-        break;
+        return userSoul.soul5;
       case 6:
-        count = userSoul.soul6;
-        break;
+        return userSoul.soul6;
       case 7:
-        count = userSoul.soul7;
-        break;
+        return userSoul.soul7;
       case 8:
-        count = userSoul.soul8;
-        break;
+        return userSoul.soul8;
       case 9:
-        count = userSoul.soul9;
-        break;
+        return userSoul.soul9;
       case 10:
-        count = userSoul.soul10;
-        break;
+        return userSoul.soul10;
       case 11:
-        count = userSoul.soul11;
-        break;
+        return userSoul.soul11;
       case 12:
-        count = userSoul.soul12;
-        break;
+        return userSoul.soul12;
       case 13:
-        count = userSoul.soul13;
-        break;
+        return userSoul.soul13;
       case 14:
-        count = userSoul.soul14;
-        break;
+        return userSoul.soul14;
       case 15:
-        count = userSoul.soul15;
-        break;
+        return userSoul.soul15;
       case 16:
-        count = userSoul.soul16;
-        break;
+        return userSoul.soul16;
       case 17:
-        count = userSoul.soul17;
-        break;
+        return userSoul.soul17;
       case 18:
-        count = userSoul.soul18;
-        break;
+        return userSoul.soul18;
       default:
-        break;
+        return null;
     }
-
-    return count;
   }
 
   async unlockUpdate(steam_id: string, saint_soul_type: number, soul: number): Promise<Souls> {

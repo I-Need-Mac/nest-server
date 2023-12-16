@@ -3,7 +3,6 @@ import { ApiOperation } from '@nestjs/swagger';
 
 import { SelectAllSoulDto, updateSoulDto } from './souls.dto';
 import { SoulsService } from './souls.service';
-
 import { SaintSoulsService } from '@saint_souls/saint_souls.service';
 
 @Controller('souls')

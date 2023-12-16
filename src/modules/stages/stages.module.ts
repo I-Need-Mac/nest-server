@@ -18,6 +18,7 @@ import { RewardBoxesService } from '@reward_boxes/reward_boxes.service';
 import { CharactersModule } from '../characters/characters.module';
 import { SaintSoulsModule } from '../saint_souls/saint_souls.module';
 import { SoulsModule } from '../souls/souls.module';
+import { RewardHistoriesModule } from '../reward_histories/reward_histories.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { SoulsModule } from '../souls/souls.module';
     CharactersModule,
     SaintSoulsModule,
     SoulsModule,
+    RewardHistoriesModule,
   ],
   providers: [
     StagesService,

@@ -35,4 +35,4 @@ export const encryptForTest = (data: any) =>
   crypto.publicEncrypt(getPublicKey(), Buffer.from(data, 'utf8')).toString('base64');
 
 export const decryptForTest = (data: string) =>
-  crypto.publicDecrypt(getPublicKey(), Buffer.from(data, 'base64')).toString('utf8');
+  crypto.privateDecrypt(getPrivateKey(), Buffer.from(data, 'base64')).toString('utf8');

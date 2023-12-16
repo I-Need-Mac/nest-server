@@ -19,16 +19,27 @@ import { SaintSoulsService } from '../saint_souls/saint_souls.service';
 import { SoulsModule } from '../souls/souls.module';
 import { SoulsService } from '../souls/souls.service';
 import { Souls } from '../souls/souls.entity';
+import { RewardHistoriesModule } from '../reward_histories/reward_histories.module';
+import { RewardHistoriesService } from '../reward_histories/reward_histories.service';
+import { RewardHistories } from '../reward_histories/reward_histories.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([RewardBoxes, Assets, Characters, SaintSouls, Souls]),
+    TypeOrmModule.forFeature([RewardBoxes, Assets, Characters, SaintSouls, Souls, RewardHistories]),
     CharactersModule,
     AssetsModule,
     SaintSoulsModule,
     SoulsModule,
+    RewardHistoriesModule,
   ],
-  providers: [RewardBoxesService, AssetsService, CharactersService, SaintSoulsService, SoulsService],
+  providers: [
+    RewardBoxesService,
+    AssetsService,
+    CharactersService,
+    SaintSoulsService,
+    SoulsService,
+    RewardHistoriesService,
+  ],
   controllers: [RewardBoxesController],
   exports: [RewardBoxesService],
 })
