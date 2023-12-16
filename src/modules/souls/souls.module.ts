@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 
 import { Souls } from './souls.entity';
 import { SaintSouls } from '../saint_souls/saint_souls.entity';
@@ -16,6 +16,12 @@ import { DecryptionMiddleware } from '../characters/characters.middleware';
 })
 export class SoulsModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(DecryptionMiddleware).forRoutes('souls');
+    consumer
+      .apply(DecryptionMiddleware)
+      .exclude({
+        path: 'souls/start',
+        method: RequestMethod.GET,
+      })
+      .forRoutes('souls');
   }
 }
