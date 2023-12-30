@@ -28,7 +28,7 @@ export class CharactersService {
       case 'sinwol':
         character.sinwol = true;
         break;
-      case 'siWoo':
+      case 'siwoo':
         character.siWoo = true;
         break;
       case 'ulises':
@@ -42,5 +42,18 @@ export class CharactersService {
 
   async findOne(steam_id: string): Promise<Characters> {
     return await this.charactersRepository.findOne({ where: { steam_id } });
+  }
+  async initializeCharacter(steam_id: string): Promise<Characters> {
+    const character = await this.charactersRepository.findOneBy({ steam_id });
+
+    if (!character) return character;
+    character.hojin = true;
+    character.seimei = false;
+    character.macia = false;
+    character.sinwol = false;
+    character.siWoo = false;
+    character.ulises = false;
+
+    return this.charactersRepository.save(character);
   }
 }

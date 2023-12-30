@@ -1,8 +1,10 @@
 import { Body, Controller, Patch, HttpStatus } from '@nestjs/common';
 import { CharactersService } from './characters.service';
 import { ApiOperation } from '@nestjs/swagger';
-import { updateCharacterDto } from './characters.dto';
+import { initializeCharacterDto, updateCharacterDto } from './characters.dto';
 import { AssetsService } from '../assets/assets.service';
+
+import { characterKeys } from './characters';
 
 @Controller('characters')
 export class CharactersController {
@@ -16,29 +18,41 @@ export class CharactersController {
     if (data === null || data === undefined) throw new Error('Data does not exist.');
     const asset = await this.assetsService.findOne(data.steam_id);
 
-    const sum = asset.key - data.key;
-    if (sum >= 0 && data.key != 0) {
+    const sum = asset.key - characterKeys[data.character];
+    if (sum >= 0 && characterKeys[data.character] != 0) {
       await this.assetsService.update(data.steam_id, sum);
       await this.charactersService.update(data.steam_id, data.character);
 
       return {
         statusCode: HttpStatus.OK,
         message: 'asset & charaters update successfully',
-        data: data.steam_id,
-      };
-    } else if (data.key == 0) {
-      await this.charactersService.update(data.steam_id, data.character);
-
-      return {
-        statusCode: HttpStatus.OK,
-        message: 'charaters update successfully',
-        data: data.steam_id,
+        data: { steam_id: data.steam_id, keys: sum, character: data.character },
       };
     }
 
     return {
       statusCode: HttpStatus.BAD_REQUEST,
       message: 'key update failed',
+    };
+  }
+  @ApiOperation({ summary: '캐릭터 해금 초기화 (테스트용)' })
+  @Patch('/initialize')
+  async initializeCharacter(@Body() data: initializeCharacterDto) {
+    console.log('in router :: ', data);
+
+    if (data === null || data === undefined) throw new Error('Data does not exist.');
+    try {
+      await this.charactersService.initializeCharacter(data.steam_id);
+    } catch {
+      return {
+        statusCode: HttpStatus.BAD_REQUEST,
+        message: 'key update failed',
+      };
+    }
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'initialize successfully',
     };
   }
 }

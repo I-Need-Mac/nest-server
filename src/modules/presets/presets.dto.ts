@@ -10,3 +10,13 @@ export class SelectPresetDto {
   @IsString()
   name: string;
 }
+
+export class UpdateCharacterDto {
+  @ApiProperty({ description: '스팀아이디' })
+  @IsString()
+  steam_id: string;
+
+  @ApiProperty({ description: '캐릭터명' })
+  @IsString()
+  character: string;
+}

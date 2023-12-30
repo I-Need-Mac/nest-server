@@ -1,8 +1,9 @@
-import { Controller, HttpStatus, Get, Query } from '@nestjs/common';
+import { Controller, HttpStatus, Get, Query, Patch } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 
 import { PresetsService } from './presets.service';
-import { SelectPresetDto } from './presets.dto';
+import { SelectPresetDto, UpdateCharacterDto } from './presets.dto';
+import { characterNames } from '@/modules/characters/characters';
 
 @Controller('preset')
 export class PresetsController {
@@ -44,6 +45,25 @@ export class PresetsController {
     return {
       statusCode: HttpStatus.OK,
       message: 'preset select data successfully',
+      data: {
+        character: preset.character,
+      },
+    };
+  }
+
+  @ApiOperation({ summary: 'preset character 정보 업데이트' })
+  @Patch('/character')
+  async updateCharacter(@Query() data: UpdateCharacterDto) {
+    if (data === null || data === undefined) throw new Error('Data does not exist.');
+
+    const { steam_id, character } = data;
+    if (!characterNames.includes(character)) throw new Error('character is not valid');
+
+    const preset = await this.PresetsService.update(steam_id, { character });
+    console.log('in router :: ', steam_id);
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'preset update data successfully',
       data: {
         character: preset.character,
       },

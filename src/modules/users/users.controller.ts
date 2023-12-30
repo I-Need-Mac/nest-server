@@ -11,8 +11,6 @@ import { SoulsService } from '@/modules/souls/souls.service';
 import { PresetsService } from '@/modules/presets/presets.service';
 import { SaintSoulsService } from '@/modules/saint_souls/saint_souls.service';
 
-import { encrypt } from '@utils/security';
-
 @Controller('auth')
 export class UsersController {
   constructor(
@@ -53,7 +51,6 @@ export class UsersController {
 
   @Post('/regist')
   async createUser(@Body() data: RegisterDto) {
-    // 트랜잭션 잘 작동 안하는 것 같음. 추후 수정 필요
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
