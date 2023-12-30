@@ -47,6 +47,7 @@ export class CharactersService {
     const character = await this.charactersRepository.findOneBy({ steam_id });
 
     if (!character) return character;
+    character.hojin = true;
     character.seimei = false;
     character.macia = false;
     character.sinwol = false;
