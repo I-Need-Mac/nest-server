@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { AssetsService } from './assets.service';
 import { AssetsController } from './assets.controller';
 import { Assets } from './assets.entity';
@@ -13,6 +13,12 @@ import { DecryptionMiddleware } from '../characters/characters.middleware';
 })
 export class AssetsModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(DecryptionMiddleware).forRoutes('assets');
+    consumer
+      .apply(DecryptionMiddleware)
+      .exclude({
+        path: 'assets',
+        method: RequestMethod.GET,
+      })
+      .forRoutes('assets');
   }
 }

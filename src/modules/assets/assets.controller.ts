@@ -1,7 +1,7 @@
-import { Body, Controller, Patch } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Query } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 
-import { updateAssetKeyDto } from './assets.dto';
+import { getAssetsDto, updateAssetKeyDto } from './assets.dto';
 import { AssetsService } from './assets.service';
 @Controller('assets')
 export class AssetsController {
@@ -19,6 +19,27 @@ export class AssetsController {
         statusCode: 200,
         message: 'asset update successfully',
         data: asset,
+      };
+    } catch (e) {
+      console.log(e);
+      return {
+        statusCode: 400,
+        message: 'asset update failed',
+      };
+    }
+  }
+  @ApiOperation({ summary: 'asset 데이터 확인' })
+  @Get('/')
+  async getAssets(@Query() data: getAssetsDto) {
+    const { steam_id } = data;
+
+    try {
+      const assets = await this.AssetsService.findOne(steam_id);
+
+      return {
+        statusCode: 200,
+        message: 'asset update successfully',
+        data: assets,
       };
     } catch (e) {
       console.log(e);

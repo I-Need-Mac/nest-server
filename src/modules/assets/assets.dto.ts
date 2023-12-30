@@ -10,3 +10,9 @@ export class updateAssetKeyDto {
   @IsNumber()
   key: number;
 }
+
+export class getAssetsDto {
+  @ApiProperty({ description: '스팀아이디' })
+  @IsString()
+  steam_id: string;
+}
