@@ -67,7 +67,7 @@ export class GameController {
         last_soul4: preset.soul4,
         last_soul5: preset.soul5,
         last_soul6: preset.soul6,
-        last_character: preset.character,
+        last_character: preset.character ? preset.character : 'hojin',
         key: asset.key,
         hojin: character.hojin,
         seimei: character.seimei,
