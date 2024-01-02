@@ -4,6 +4,7 @@ export enum characterKeys {
   macia = 10,
   siwoo = 10,
   ulises = 10,
+  sinwol = 10,
 }
 
-export const characterNames = ['hojin', 'seimei', 'macia', 'siwoo', 'ulises'];
+export const characterNames = ['hojin', 'seimei', 'macia', 'siwoo', 'ulises', 'sinwol'];
