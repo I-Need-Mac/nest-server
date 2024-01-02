@@ -1,4 +1,4 @@
-import { Controller, HttpStatus, Get, Query, Patch } from '@nestjs/common';
+import { Controller, HttpStatus, Get, Query, Patch, Body } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 
 import { PresetsService } from './presets.service';
@@ -53,7 +53,7 @@ export class PresetsController {
 
   @ApiOperation({ summary: 'preset character 정보 업데이트' })
   @Patch('/character')
-  async updateCharacter(@Query() data: UpdateCharacterDto) {
+  async updateCharacter(@Body() data: UpdateCharacterDto) {
     if (data === null || data === undefined) throw new Error('Data does not exist.');
 
     const { steam_id, character } = data;
