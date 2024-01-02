@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Query, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Query, HttpStatus } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { SelectAllDto } from './game.dto';
 import { StagesService } from '../stages/stages.service';
@@ -73,7 +73,7 @@ export class GameController {
         seimei: character.seimei,
         macia: character.macia,
         sinwol: character.sinwol,
-        siWoo: character.siWoo,
+        siwoo: character.siwoo,
         ulises: character.ulises,
       },
     };

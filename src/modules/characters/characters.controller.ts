@@ -18,6 +18,8 @@ export class CharactersController {
     if (data === null || data === undefined) throw new Error('Data does not exist.');
     const asset = await this.assetsService.findOne(data.steam_id);
 
+    data.character = data.character.toLocaleLowerCase();
+
     const sum = asset.key - characterKeys[data.character];
     if (sum >= 0 && characterKeys[data.character] != 0) {
       await this.assetsService.update(data.steam_id, sum);

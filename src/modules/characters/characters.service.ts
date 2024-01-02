@@ -29,7 +29,7 @@ export class CharactersService {
         character.sinwol = true;
         break;
       case 'siwoo':
-        character.siWoo = true;
+        character.siwoo = true;
         break;
       case 'ulises':
         character.ulises = true;
@@ -51,7 +51,7 @@ export class CharactersService {
     character.seimei = false;
     character.macia = false;
     character.sinwol = false;
-    character.siWoo = false;
+    character.siwoo = false;
     character.ulises = false;
 
     return this.charactersRepository.save(character);

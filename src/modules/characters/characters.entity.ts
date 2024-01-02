@@ -42,10 +42,10 @@ export class Characters extends BaseEntity {
 
   @Column({
     type: 'bool',
-    comment: 'SiWoo 캐릭터 해금 여부',
+    comment: 'Siwoo 캐릭터 해금 여부',
     default: () => 'false',
   })
-  siWoo!: boolean;
+  siwoo!: boolean;
 
   @Column({
     type: 'bool',

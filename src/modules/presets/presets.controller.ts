@@ -57,7 +57,7 @@ export class PresetsController {
     if (data === null || data === undefined) throw new Error('Data does not exist.');
 
     const { steam_id, character } = data;
-    if (!characterNames.includes(character)) throw new Error('character is not valid');
+    if (!characterNames.includes(character.toLocaleLowerCase())) throw new Error('character is not valid');
 
     const preset = await this.PresetsService.update(steam_id, { character });
     console.log('in router :: ', steam_id);
