@@ -17,7 +17,7 @@ import { SoulsModule } from '@souls/souls.module';
 import { RewardBoxesModule } from '@reward_boxes/reward_boxes.module';
 import { RewardHistoriesModule } from './modules/reward_histories/reward_histories.module';
 import { GameModule } from './modules/game/game.module';
-
+import { SoulProgressCountModule } from './modules/soul_progress_count/soul_progress_count.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -46,6 +46,7 @@ import { GameModule } from './modules/game/game.module';
     CharactersModule,
     GameModule,
     RewardHistoriesModule,
+    SoulProgressCountModule,
   ],
   controllers: [AppController],
   providers: [
