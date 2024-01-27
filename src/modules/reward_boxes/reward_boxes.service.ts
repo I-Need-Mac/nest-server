@@ -82,7 +82,7 @@ export class RewardBoxesService {
     const { RewardBoxesProbData } = await (await getRewardBoxObject())();
     const rewardBox = RewardBoxesProbData[boxType];
 
-    // return dayjs().diff(dayjs(openStartTime), 'minute') >= rewardBox.opening_time;
+    return dayjs().diff(dayjs(openStartTime), 'minute') >= rewardBox.opening_time;
   }
 
   async setRewardList({ steam_id, box_type }: { steam_id: string; box_type: number }) {
