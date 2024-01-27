@@ -10,6 +10,7 @@ import { CharactersService } from '../characters/characters.service';
 import { SoulsService } from '@/modules/souls/souls.service';
 import { PresetsService } from '@/modules/presets/presets.service';
 import { SaintSoulsService } from '@/modules/saint_souls/saint_souls.service';
+import { SoulProgressCountService } from '../soul_progress_count/soul_progress_count.service';
 
 @Controller('auth')
 export class UsersController {
@@ -21,6 +22,7 @@ export class UsersController {
     private soulsService: SoulsService,
     private presetsService: PresetsService,
     private saintSoulsService: SaintSoulsService,
+    private soulProgressCountService: SoulProgressCountService,
   ) {}
 
   @ApiQuery({
@@ -62,6 +64,26 @@ export class UsersController {
       const soulPromises = [1, 2, 3, 4, 5].map((i) =>
         this.soulsService.create({ steam_id: data.steam_id, saint_soul_type: i }),
       );
+      // 계정 생성 시 업적에 대한 데이터 테이블도 같이 생성 하기
+
+      Promise.all(soulPromises)
+        .then((results) => {
+          results.map((raw) => {
+            console.log('raw.id!!');
+            console.log(raw.id);
+            for (let i = 1; i <= 18; i++) {
+              this.soulProgressCountService.create({
+                steam_id: data.steam_id,
+                souls_id: raw.id,
+                soul_name: `soul${i}`,
+              });
+            }
+          });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+
       const presetPromise = this.presetsService.create({ steam_id: data.steam_id });
       const saintSoulPromise = this.saintSoulsService.create({ steam_id: data.steam_id });
 
