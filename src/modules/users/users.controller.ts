@@ -69,13 +69,10 @@ export class UsersController {
       Promise.all(soulPromises)
         .then((results) => {
           results.map((raw) => {
-            console.log('raw.id!!');
-            console.log(raw.id);
             for (let i = 1; i <= 18; i++) {
               this.soulProgressCountService.create({
                 steam_id: data.steam_id,
                 souls_id: raw.id,
-                soul_name: `soul${i}`,
               });
             }
           });

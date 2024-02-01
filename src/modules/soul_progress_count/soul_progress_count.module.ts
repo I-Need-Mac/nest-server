@@ -17,6 +17,9 @@ import { GlobalValidationPipe } from '@/common/errors/globalValidatiion.pipe';
 })
 export class SoulProgressCountModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(DecryptionMiddleware).forRoutes('soul-progress-count');
+    consumer
+      .apply(DecryptionMiddleware)
+      .exclude({ path: 'soul-progress-count/soul-progress', method: RequestMethod.GET })
+      .forRoutes('soul-progress-count');
   }
 }

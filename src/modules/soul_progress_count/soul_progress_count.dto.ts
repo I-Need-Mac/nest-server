@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString } from 'class-validator';
+import { IsArray, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class ProgressDto {
   @ApiProperty({ description: '스팀아이디' })
@@ -10,15 +10,18 @@ export class ProgressDto {
   @IsNumber()
   souls_id: number;
 
-  @ApiProperty({ description: 'soul 소분류 명 (ex. soul1)' })
+  @ApiProperty({ description: '진척도 배열 (soul1 ~ soul18까지 순차적으로 넣어주세요)' })
+  @IsArray()
+  now_count_list: number;
+}
+
+export class selectProgressDto {
+  @ApiProperty({ description: '스팀아이디' })
   @IsString()
-  soul_name: string;
+  steam_id: string;
 
-  @ApiProperty({ description: '현재 카운트' })
+  @ApiProperty({ description: '하위 소울 ID' })
   @IsNumber()
-  now_count: number;
-
-  @ApiProperty({ description: '최대 카운트' })
-  @IsNumber()
-  max_count: number;
+  @IsOptional()
+  souls_id: number;
 }
