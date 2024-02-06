@@ -20,7 +20,7 @@ export class selectProgressDto {
   @IsString()
   steam_id: string;
 
-  @ApiProperty({ description: '하위 소울 ID' })
+  @ApiProperty({ description: 'saint soul ID', required: false })
   @IsNumber()
   @IsOptional()
   souls_id: number;

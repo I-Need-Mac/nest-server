@@ -44,7 +44,7 @@ export class SoulProgressCountController {
   @ApiOperation({ summary: '진척도 데이터 (soul_id를 null로 전송 시 유저의 전체 진척도 리스트 출력)' })
   @Get('/soul-progress')
   async selectSoulProgress(@Query() data: selectProgressDto) {
-    console.log('in router : ' + data);
+    console.log('in router : ', data);
 
     if (data === null || data === undefined) throw new Error('Data does not exist.');
 
