@@ -72,7 +72,7 @@ export class Presets extends BaseEntity {
     comment: '캐릭터 이름',
     type: 'varchar',
     nullable: true,
-    default: () => 'NULL',
+    default: 'hojin',
   })
   character: string | null;
 
