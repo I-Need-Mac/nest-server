@@ -14,14 +14,12 @@ export class ProgressDto {
   @IsArray()
   now_count_list: number;
 }
-
-export class selectProgressDto {
+export class SelectProgressDto {
   @ApiProperty({ description: '스팀아이디' })
   @IsString()
   steam_id: string;
 
   @ApiProperty({ description: 'saint soul ID', required: false })
-  @IsNumber()
   @IsOptional()
-  souls_id: number;
+  souls_id: number | null;
 }
