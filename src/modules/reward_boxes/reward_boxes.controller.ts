@@ -54,14 +54,21 @@ export class RewardBoxesController {
         throw new Error('reward box time validation failed');
       }
 
-      const userRewardBoxes = await this.rewardBoxesService.openEnd({ id: data.id, steam_id: data.steam_id });
+      const userRewardBoxHistory = await this.rewardBoxesService.openEnd({ id: data.id, steam_id: data.steam_id });
 
-      if (userRewardBoxes == null) throw new Error('reward box open end failed');
+      if (userRewardBoxHistory == null) throw new Error('reward box open end failed');
+
+      const rewardHistory = ['reward1', 'reward2', 'reward3', 'reward4'].reduce((acc, cur) => {
+        if (userRewardBoxHistory[cur] != null) {
+          return { ...acc, [cur]: JSON.parse(userRewardBoxHistory[cur]) };
+        }
+        return acc;
+      }, userRewardBoxHistory);
 
       return {
         statusCode: HttpStatus.OK,
         message: 'open reward box end success',
-        data: userRewardBoxes,
+        data: rewardHistory,
       };
     } catch (e) {
       console.log(e);
