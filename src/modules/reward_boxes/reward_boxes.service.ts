@@ -130,7 +130,7 @@ export class RewardBoxesService {
     return selectedRewardList;
   }
 
-  async openEnd({ id, steam_id }: Partial<RewardBoxes>): Promise<RewardBoxes> {
+  async openEnd({ id, steam_id }: Partial<RewardBoxes>): Promise<any> {
     const rewardBox = await this.rewardBoxesRepository.findOne({ where: { id, steam_id } });
     if (!rewardBox) return null;
 
@@ -163,7 +163,7 @@ export class RewardBoxesService {
       }
     }
 
-    await this.rewardHistoriesService.create({
+    const history = await this.rewardHistoriesService.create({
       steam_id: rewardBox.steam_id,
       reward_box_id: rewardBox.id,
       reward1: selectedRewardList[0] ? JSON.stringify(selectedRewardList[0]) : null,
@@ -173,6 +173,8 @@ export class RewardBoxesService {
     });
 
     rewardBox.is_open = true;
-    return await this.rewardBoxesRepository.save(rewardBox);
+    await this.rewardBoxesRepository.save(rewardBox);
+
+    return history;
   }
 }
