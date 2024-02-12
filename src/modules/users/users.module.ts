@@ -20,9 +20,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DecryptionMiddleware } from '@/common/utils/middleware';
 import { GlobalHttpExceptionFilter } from '@/common/errors/globalHttpException.filter';
 import { GlobalValidationPipe } from '@/common/errors/globalValidatiion.pipe';
+import { SoulProgressCountService } from '../soul_progress_count/soul_progress_count.service';
+import { SoulProgressCount } from '../soul_progress_count/soul_progress_count.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Users, Assets, Characters, Souls, Presets, SaintSouls])],
+  imports: [TypeOrmModule.forFeature([Users, Assets, Characters, Souls, Presets, SaintSouls, SoulProgressCount])],
   providers: [
     UsersService,
     AssetsService,
@@ -30,6 +32,7 @@ import { GlobalValidationPipe } from '@/common/errors/globalValidatiion.pipe';
     SoulsService,
     PresetsService,
     SaintSoulsService,
+    SoulProgressCountService,
     GlobalHttpExceptionFilter,
     GlobalValidationPipe,
   ],
