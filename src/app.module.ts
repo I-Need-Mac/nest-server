@@ -34,6 +34,7 @@ import { SoulProgressCountModule } from './modules/soul_progress_count/soul_prog
       synchronize: true,
       logging: true,
       entities: ['dist/**/*.entity{.ts,.js}'],
+      timezone: '-09:00',
     }),
     MedicinesModule,
     UsersModule,

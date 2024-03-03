@@ -13,6 +13,7 @@ import { SoulsService } from '../souls/souls.service';
 import { RewardHistoriesService } from '../reward_histories/reward_histories.service';
 
 const SOUL_UNLOCK_COUNT = 7;
+const SAVE_KEY_TIME = 1;
 
 const checkCharacters = (userCharacters, rewardCharacter) => {
   const rewardCharacterName = rewardCharacter.split('_')[1].toLowerCase();
@@ -57,7 +58,9 @@ export class RewardBoxesService {
     return newRewardBox.save();
   }
   async getRewardBoxes(steam_id: string): Promise<RewardBoxes[]> {
-    return await this.rewardBoxesRepository.find({ where: { steam_id } });
+    const rewardBoxes = await this.rewardBoxesRepository.find({ where: { steam_id } });
+
+    return rewardBoxes.filter((rewardBox) => !rewardBox.is_open);
   }
 
   async openStart({ id, steam_id }: Partial<RewardBoxes>): Promise<RewardBoxes> {
@@ -68,7 +71,7 @@ export class RewardBoxesService {
     return await this.rewardBoxesRepository.save(rewardBox);
   }
 
-  async validate({ id, steam_id }: Partial<RewardBoxes>): Promise<boolean> {
+  async timeValidate({ id, steam_id }: Partial<RewardBoxes>): Promise<boolean> {
     const {
       open_start_time: openStartTime,
       box_type: boxType,
@@ -83,6 +86,29 @@ export class RewardBoxesService {
     const rewardBox = RewardBoxesProbData[boxType];
 
     return dayjs().diff(dayjs(openStartTime), 'minute') >= rewardBox.opening_time;
+  }
+
+  async keyValidate({ id, steam_id }: Partial<RewardBoxes>): Promise<boolean> {
+    const userAsset = await this.assetsService.findOne(steam_id);
+    const { open_start_time: openStartTime, box_type: boxType } = await this.rewardBoxesRepository.findOne({
+      where: { id, steam_id },
+    });
+    const { RewardBoxesProbData } = await (await getRewardBoxObject())();
+    const rewardBox = RewardBoxesProbData[boxType];
+
+    if (
+      Math.ceil((rewardBox.opening_time - dayjs().diff(dayjs(openStartTime), 'minute')) / SAVE_KEY_TIME) <=
+      userAsset.key
+    ) {
+      await this.assetsService.update(
+        steam_id,
+        userAsset.key -
+          Math.ceil((rewardBox.opening_time - dayjs().diff(dayjs(openStartTime), 'minute')) / SAVE_KEY_TIME),
+      );
+      return true;
+    }
+
+    return false;
   }
 
   async setRewardList({ steam_id, box_type }: { steam_id: string; box_type: number }) {
