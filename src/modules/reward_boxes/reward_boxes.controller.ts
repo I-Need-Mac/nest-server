@@ -47,11 +47,12 @@ export class RewardBoxesController {
   @Patch('/open-end')
   async openEnd(@Body() data: RewardBoxOpenEndDto) {
     try {
-      const validation = await this.rewardBoxesService.validate({ id: data.id, steam_id: data.steam_id });
+      const timeValidation = await this.rewardBoxesService.timeValidate({ id: data.id, steam_id: data.steam_id });
+      const keyValidate = await this.rewardBoxesService.keyValidate({ id: data.id, steam_id: data.steam_id });
 
-      if (!validation) {
-        console.log('---------------reward box time validation failed');
-        throw new Error('reward box time validation failed');
+      if (!timeValidation && !keyValidate) {
+        console.log('---------------reward box validation failed');
+        throw new Error('reward box validation failed');
       }
 
       const userRewardBoxHistory = await this.rewardBoxesService.openEnd({ id: data.id, steam_id: data.steam_id });
