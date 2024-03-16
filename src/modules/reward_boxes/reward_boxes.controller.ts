@@ -2,6 +2,7 @@ import { Body, Controller, Get, HttpStatus, Param, Patch } from '@nestjs/common'
 import { ApiOperation } from '@nestjs/swagger';
 import { RewardBoxesService } from './reward_boxes.service';
 import { FindRewardBoxDto, RewardBoxOpenStartDto, RewardBoxOpenEndDto } from './reward_boxes.dto';
+import * as dayjs from 'dayjs';
 
 @Controller('reward-box')
 export class RewardBoxesController {
@@ -16,7 +17,7 @@ export class RewardBoxesController {
     return {
       statusCode: HttpStatus.OK,
       message: 'find reward box success',
-      data: userRewardBoxes,
+      data: { userRewardBoxes, current_time: dayjs().format() },
     };
   }
 
