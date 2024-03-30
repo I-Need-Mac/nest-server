@@ -85,7 +85,7 @@ export class RewardBoxesService {
     const { RewardBoxesProbData } = await (await getRewardBoxObject())();
     const rewardBox = RewardBoxesProbData[boxType];
 
-    return dayjs().diff(dayjs(openStartTime), 'minute') >= rewardBox.opening_time;
+    return dayjs().add(9, 'hour').diff(dayjs(openStartTime), 'minute') >= rewardBox.opening_time;
   }
 
   async keyValidate({ id, steam_id }: Partial<RewardBoxes>): Promise<boolean> {
@@ -97,13 +97,16 @@ export class RewardBoxesService {
     const rewardBox = RewardBoxesProbData[boxType];
 
     if (
-      Math.ceil((rewardBox.opening_time - dayjs().diff(dayjs(openStartTime), 'minute')) / SAVE_KEY_TIME) <=
-      userAsset.key
+      Math.ceil(
+        (rewardBox.opening_time - dayjs().add(9, 'hour').diff(dayjs(openStartTime), 'minute')) / SAVE_KEY_TIME,
+      ) <= userAsset.key
     ) {
       await this.assetsService.update(
         steam_id,
         userAsset.key -
-          Math.ceil((rewardBox.opening_time - dayjs().diff(dayjs(openStartTime), 'minute')) / SAVE_KEY_TIME),
+          Math.ceil(
+            (rewardBox.opening_time - dayjs().add(9, 'hour').diff(dayjs(openStartTime), 'minute')) / SAVE_KEY_TIME,
+          ),
       );
       return true;
     }
